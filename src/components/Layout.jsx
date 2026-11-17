@@ -4,19 +4,12 @@ import { useEffect, useState } from 'react'
 const NAV_ITEMS = [
   { label: 'AI Workforce', href: '#workforce' },
   { label: 'Solutions', href: '#solutions' },
+  { label: 'Product Demo', href: '#product-experience' },
   { label: 'How It Works', href: '#how-it-works' },
   { label: 'Industries', href: '#industries' },
-  { label: 'About Us', href: '#about' },
+  { label: 'Responsible AI', href: '#responsible-ai' },
   { label: 'Contact', href: '#contact' },
 ]
-
-export function ScrollToTop() {
-  useEffect(() => {
-    window.history.scrollRestoration = 'manual'
-    window.scrollTo(0, 0)
-  }, [])
-  return null
-}
 
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -74,7 +67,7 @@ export function Header() {
 
 export function Footer() {
   return (
-    <footer className="site-footer" id="contact">
+    <footer className="site-footer">
       <div className="container footer-main">
         <div className="footer-brand-block">
           <a className="brand footer-brand" href="#home" aria-label="AVENQEO AI home">
