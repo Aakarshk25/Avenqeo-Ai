@@ -256,13 +256,19 @@ function HeroDashboard() {
               <span>Incoming task</span>
               <span className="chip chip-info">{activeAgent.number}</span>
             </div>
-            <p>{activeAgent.task}</p>
+            <p className="task-desc-animated">{activeAgent.task}</p>
 
             <div className="progress-list">
               {activeAgent.reasoning.map((step, index) => (
-                <div key={step} className={`progress-item ${index < progressStep ? 'done' : index === progressStep ? 'is-current' : ''}`}>
+                <div
+                  key={step}
+                  className={`progress-item ${
+                    index < progressStep ? 'done' : index === progressStep ? 'is-current' : ''
+                  }`}
+                >
                   <span className="step-circle">{index + 1}</span>
-                  <span>{step}</span>
+                  <span className="step-label">{step}</span>
+                  {index === progressStep && <span className="step-pulse-beacon" aria-hidden="true" />}
                 </div>
               ))}
             </div>
@@ -290,28 +296,70 @@ function Hero() {
       <div className="container hero-layout">
         <motion.div
           className="hero-copy"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.12 }
+            }
+          }}
         >
-          <SectionLabel>THE NEXT ERA OF WORK IS HERE.</SectionLabel>
-          <h1>
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 14 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.45 } }
+            }}
+          >
+            <SectionLabel>THE NEXT ERA OF WORK IS HERE.</SectionLabel>
+          </motion.div>
+
+          <motion.h1
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } }
+            }}
+          >
             Your next best hire
             <br className="desktop-break" />
             might not be human.
-          </h1>
-          <p className="hero-description">
+          </motion.h1>
+
+          <motion.p
+            className="hero-description"
+            variants={{
+              hidden: { opacity: 0, y: 18 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } }
+            }}
+          >
             Meet a new generation of intelligent digital employees. Designed to take on business responsibilities, execute workflows and work alongside the people who move your organisation forward.
-          </p>
-          <div className="hero-actions">
-            <a className="button button-primary" href="#workforce">
-              Explore the AI Workforce <ArrowRight size={16} />
+          </motion.p>
+
+          <motion.div
+            className="hero-actions"
+            variants={{
+              hidden: { opacity: 0, y: 16 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+            }}
+          >
+            <a className="button button-primary hero-primary-btn" href="#workforce">
+              Explore the AI Workforce <ArrowRight size={16} className="btn-arrow-icon" />
             </a>
             <a className="button button-outline" href="#contact">
               Book a Consultation
             </a>
-          </div>
-          <p className="hero-tagline">Four specialised roles. Endless possibilities. One intelligent direction.</p>
+          </motion.div>
+
+          <motion.p
+            className="hero-tagline"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { duration: 0.6 } }
+            }}
+          >
+            Four specialised roles. Endless possibilities. One intelligent direction.
+          </motion.p>
         </motion.div>
 
         <HeroDashboard />
@@ -325,6 +373,156 @@ function Hero() {
   )
 }
 
+function PhilosophyVisual() {
+  const prefersReducedMotion = useReducedMotion()
+
+  return (
+    <div className="philosophy-visual" aria-label="Human teams and AI employees coordinate work toward shared outcomes">
+      {/* Background Orbital Rings with smooth breathing & rotation */}
+      <div className="philosophy-orbit orbit-one" />
+      <div className="philosophy-orbit orbit-two" />
+      <div className="philosophy-orbit orbit-three" />
+
+      {/* SVG Connected Collaboration Arcs & Flowing Signal Particles */}
+      <svg className="philosophy-flow-svg" viewBox="0 0 400 280" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="flowGradHuman" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#2861b8" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#26b3a5" stopOpacity="0.15" />
+          </linearGradient>
+          <linearGradient id="flowGradAI" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#5aa8ff" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#26b3a5" stopOpacity="0.15" />
+          </linearGradient>
+          <radialGradient id="signalGlow" r="50%">
+            <stop offset="0%" stopColor="#2861b8" stopOpacity="1" />
+            <stop offset="100%" stopColor="#5aa8ff" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+
+        {/* Base connection paths between Human Team -> Shared Outcomes and AI Employees -> Shared Outcomes */}
+        <path
+          id="pathHumanToOutcome"
+          d="M 100 80 Q 140 180, 200 230"
+          fill="none"
+          stroke="url(#flowGradHuman)"
+          strokeWidth="1.5"
+          strokeDasharray="4 4"
+        />
+        <path
+          id="pathAIToOutcome"
+          d="M 300 80 Q 260 180, 200 230"
+          fill="none"
+          stroke="url(#flowGradAI)"
+          strokeWidth="1.5"
+          strokeDasharray="4 4"
+        />
+        <path
+          d="M 120 70 Q 200 40, 280 70"
+          fill="none"
+          stroke="rgba(40, 97, 189, 0.2)"
+          strokeWidth="1.5"
+          strokeDasharray="3 5"
+        />
+
+        {/* Dynamic traveling signals across paths (disabled if prefersReducedMotion) */}
+        {!prefersReducedMotion && (
+          <>
+            <circle r="3.5" fill="#2861b8">
+              <animateMotion
+                dur="3.8s"
+                repeatCount="indefinite"
+                path="M 100 80 Q 140 180, 200 230"
+              />
+            </circle>
+            <circle r="3.5" fill="#5aa8ff">
+              <animateMotion
+                dur="3.8s"
+                begin="1.9s"
+                repeatCount="indefinite"
+                path="M 300 80 Q 260 180, 200 230"
+              />
+            </circle>
+            <circle r="2.5" fill="#26b3a5">
+              <animateMotion
+                dur="4.5s"
+                repeatCount="indefinite"
+                path="M 120 70 Q 200 40, 280 70"
+              />
+            </circle>
+          </>
+        )}
+      </svg>
+
+      {/* Human Team Card */}
+      <motion.div
+        className="philosophy-node philosophy-human"
+        initial={{ opacity: 0, x: -24, y: 10 }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                y: [0, -6, 0],
+                transition: { duration: 4.8, repeat: Infinity, ease: 'easeInOut' }
+              }
+        }
+        whileHover={{ scale: 1.04, translateY: -4 }}
+      >
+        <span className="philosophy-icon">
+          <Users size={17} />
+        </span>
+        <span>
+          <strong>Human team</strong>
+          <small>Judgement &amp; direction</small>
+        </span>
+      </motion.div>
+
+      {/* AI Employees Card */}
+      <motion.div
+        className="philosophy-node philosophy-ai"
+        initial={{ opacity: 0, x: 24, y: 10 }}
+        whileInView={{ opacity: 1, x: 0, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.6, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                y: [0, 6, 0],
+                transition: { duration: 5.2, repeat: Infinity, ease: 'easeInOut' }
+              }
+        }
+        whileHover={{ scale: 1.04, translateY: -4 }}
+      >
+        <span className="philosophy-icon">
+          <Bot size={17} />
+        </span>
+        <span>
+          <strong>AI employees</strong>
+          <small>Workflow coordination</small>
+        </span>
+      </motion.div>
+
+      {/* Shared Outcomes Pill Badge */}
+      <motion.div
+        className="philosophy-outcome"
+        initial={{ opacity: 0, scale: 0.85, y: 16 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        whileHover={{ scale: 1.06 }}
+      >
+        <CheckCircle2 size={16} className="outcome-check-icon" />
+        <span>Shared outcomes</span>
+        <span className="outcome-pulse-ring" aria-hidden="true" />
+      </motion.div>
+    </div>
+  )
+}
+
 function BusinessChallenge() {
   const [selectedChallenge, setSelectedChallenge] = useState(challenges[0].id)
   const activeChallenge = challenges.find((challenge) => challenge.id === selectedChallenge) || challenges[0]
@@ -333,28 +531,40 @@ function BusinessChallenge() {
     <section className="section challenge-section" id="solutions">
       <div className="container">
         <SectionLabel>THE BUSINESS CHALLENGE</SectionLabel>
-        <div className="section-heading challenge-heading">
+        <motion.div
+          className="section-heading challenge-heading"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.55, ease: 'easeOut' }}
+        >
           <h2>Businesses are growing. Work is growing faster.</h2>
           <p>
             As businesses expand, responsibilities multiply across customer service, marketing, HR and operations. The challenge is not just volume — it is the complexity of coordinating work across teams and systems.
           </p>
-        </div>
+        </motion.div>
 
         <div className="challenge-layout">
           <div className="challenge-selector">
-            {challenges.map((challenge) => (
-              <button
+            {challenges.map((challenge, index) => (
+              <motion.button
                 key={challenge.id}
                 type="button"
                 className={`challenge-option ${challenge.id === selectedChallenge ? 'is-selected' : ''}`}
                 onClick={() => setSelectedChallenge(challenge.id)}
+                initial={{ opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
+                whileHover={{ scale: 1.015 }}
+                whileTap={{ scale: 0.99 }}
               >
                 <span className="option-number">{challenge.number}</span>
                 <div>
                   <strong>{challenge.title}</strong>
                   <small>{challenge.text}</small>
                 </div>
-              </button>
+              </motion.button>
             ))}
           </div>
 
@@ -389,30 +599,50 @@ function BusinessChallenge() {
           </AnimatePresence>
         </div>
 
+        {/* Section 1: Philosophy & Human + AI Collaboration */}
         <div className="philosophy-panel" id="about">
-          <div className="philosophy-copy">
-            <SectionLabel>THE AVENQEO PHILOSOPHY</SectionLabel>
-            <h2>Don&apos;t just automate tasks. Rethink the workforce.</h2>
-            <p>
+          <motion.div
+            className="philosophy-copy"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.15 }
+              }
+            }}
+          >
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 14 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+              }}
+            >
+              <SectionLabel>THE AVENQEO PHILOSOPHY</SectionLabel>
+            </motion.div>
+
+            <motion.h2
+              variants={{
+                hidden: { opacity: 0, y: 18 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } }
+              }}
+            >
+              Don&apos;t just automate tasks. Rethink the workforce.
+            </motion.h2>
+
+            <motion.p
+              variants={{
+                hidden: { opacity: 0, y: 18 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } }
+              }}
+            >
               People and intelligent digital employees can work together to move organisations forward. AI should expand human capability, not represent a blanket replacement for people.
-            </p>
-          </div>
-          <div className="philosophy-visual" aria-label="Human teams and AI employees coordinate work toward shared outcomes">
-            <div className="philosophy-orbit orbit-one" />
-            <div className="philosophy-orbit orbit-two" />
-            <div className="philosophy-node philosophy-human">
-              <span className="philosophy-icon"><Users size={17} /></span>
-              <span><strong>Human team</strong><small>Judgement &amp; direction</small></span>
-            </div>
-            <div className="philosophy-node philosophy-ai">
-              <span className="philosophy-icon"><Bot size={17} /></span>
-              <span><strong>AI employees</strong><small>Workflow coordination</small></span>
-            </div>
-            <div className="philosophy-outcome">
-              <CheckCircle2 size={16} />
-              <span>Shared outcomes</span>
-            </div>
-          </div>
+            </motion.p>
+          </motion.div>
+
+          <PhilosophyVisual />
         </div>
       </div>
     </section>
@@ -427,21 +657,33 @@ function WorkforceSelector() {
     <section className="section workforce-section" id="workforce">
       <div className="container">
         <SectionLabel>MEET THE WORKFORCE</SectionLabel>
-        <div className="section-heading workforce-heading">
+        <motion.div
+          className="section-heading workforce-heading"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
           <h2>Four specialised employees. One intelligent workforce.</h2>
           <p>
             Each employee is designed around a distinct business function so teams can expand capacity without losing clarity, control or context.
           </p>
-        </div>
+        </motion.div>
 
         <div className="workforce-layout">
           <div className="employee-list">
-            {agents.map((agent) => (
-              <button
+            {agents.map((agent, idx) => (
+              <motion.button
                 key={agent.id}
                 type="button"
                 className={`employee-tab ${agent.id === activeId ? 'is-selected' : ''}`}
                 onClick={() => setActiveId(agent.id)}
+                initial={{ opacity: 0, x: -14 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.35, delay: idx * 0.06 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
               >
                 <span className="employee-number">{agent.number}</span>
                 <div className="employee-tab-copy">
@@ -449,7 +691,7 @@ function WorkforceSelector() {
                   <small>{agent.category}</small>
                 </div>
                 <ChevronRight size={16} />
-              </button>
+              </motion.button>
             ))}
           </div>
 
@@ -460,7 +702,7 @@ function WorkforceSelector() {
               initial={{ opacity: 0, x: 16 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -16 }}
-              transition={{ duration: 0.22 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
             >
               <div className="detail-topline">
                 <span className="detail-tag">{activeAgent.number}</span>
@@ -473,19 +715,55 @@ function WorkforceSelector() {
               <div className="detail-grid">
                 <div className="detail-stack">
                   <span className="mini-label">Key capabilities</span>
-                  <ul>
+                  <motion.ul
+                    initial="hidden"
+                    animate="visible"
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: {
+                        opacity: 1,
+                        transition: { staggerChildren: 0.08 }
+                      }
+                    }}
+                  >
                     {activeAgent.capabilities.map((capability) => (
-                      <li key={capability}>{capability}</li>
+                      <motion.li
+                        key={capability}
+                        variants={{
+                          hidden: { opacity: 0, x: -8 },
+                          visible: { opacity: 1, x: 0, transition: { duration: 0.3 } }
+                        }}
+                      >
+                        {capability}
+                      </motion.li>
                     ))}
-                  </ul>
+                  </motion.ul>
                 </div>
                 <div className="detail-stack">
                   <span className="mini-label">Example workflow</span>
-                  <ul>
+                  <motion.ul
+                    initial="hidden"
+                    animate="visible"
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: {
+                        opacity: 1,
+                        transition: { staggerChildren: 0.08, delayChildren: 0.1 }
+                      }
+                    }}
+                  >
                     {activeAgent.reasoning.map((step) => (
-                      <li key={step}>{step}</li>
+                      <motion.li
+                        key={step}
+                        variants={{
+                          hidden: { opacity: 0, x: -8 },
+                          visible: { opacity: 1, x: 0, transition: { duration: 0.3 } }
+                        }}
+                      >
+                        {step}
+                      </motion.li>
                     ))}
-                  </ul>
+                  </motion.ul>
                 </div>
               </div>
             </motion.div>
@@ -525,14 +803,26 @@ function ProductDemo() {
     <section className="section product-section" id="product-experience">
       <div className="container">
         <SectionLabel>SEE INTELLIGENT EMPLOYEES AT WORK</SectionLabel>
-        <div className="section-heading product-heading">
+        <motion.div
+          className="section-heading product-heading"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
           <h2>See intelligent employees at work.</h2>
           <p>
             This illustrative interface shows how an AI employee can interpret inputs, guide a workflow and surface a clear human-ready outcome without pretending to be a live connected system.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="product-demo">
+        <motion.div
+          className="product-demo"
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.55, ease: 'easeOut' }}
+        >
           <div className="demo-tabs" role="tablist" aria-label="AI employee demos">
             {agents.map((agent) => (
               <button
@@ -626,7 +916,7 @@ function ProductDemo() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )
@@ -736,36 +1026,244 @@ function Industries() {
   )
 }
 
+function EcosystemHub() {
+  const containerRef = useRef(null)
+  const hubRef = useRef(null)
+  const pillRefs = useRef([])
+  const [hoveredIndex, setHoveredIndex] = useState(null)
+  const [activeCycleIndex, setActiveCycleIndex] = useState(0)
+  const [lines, setLines] = useState([])
+  const prefersReducedMotion = useReducedMotion()
+
+  // Symmetrical percentage anchors around the center:
+  // Node 1: Top Center (50%, 42px)
+  // Node 2: Top Right (82%, 140px)
+  // Node 3: Bottom Right (80%, 350px)
+  // Node 4: Bottom Center (50%, 450px)
+  // Node 5: Bottom Left (20%, 350px)
+  // Node 6: Top Left (18%, 140px)
+
+  // Measure exact rendered centers of Hub and Pills relative to container
+  const updateConnectorCoordinates = () => {
+    if (!containerRef.current || !hubRef.current) return
+    const containerRect = containerRef.current.getBoundingClientRect()
+    const hubRect = hubRef.current.getBoundingClientRect()
+
+    const hubCenterX = hubRect.left + hubRect.width / 2 - containerRect.left
+    const hubCenterY = hubRect.top + hubRect.height / 2 - containerRect.top
+
+    const computedLines = pillRefs.current.map((pillEl) => {
+      if (!pillEl) return { x1: hubCenterX, y1: hubCenterY, x2: hubCenterX, y2: hubCenterY }
+      const pillRect = pillEl.getBoundingClientRect()
+      const pillCenterX = pillRect.left + pillRect.width / 2 - containerRect.left
+      const pillCenterY = pillRect.top + pillRect.height / 2 - containerRect.top
+
+      return {
+        x1: hubCenterX,
+        y1: hubCenterY,
+        x2: pillCenterX,
+        y2: pillCenterY,
+      }
+    })
+
+    setLines(computedLines)
+  }
+
+  useEffect(() => {
+    updateConnectorCoordinates()
+
+    const handleResize = () => {
+      updateConnectorCoordinates()
+    }
+    window.addEventListener('resize', handleResize)
+
+    let resizeObserver
+    if (typeof ResizeObserver !== 'undefined' && containerRef.current) {
+      resizeObserver = new ResizeObserver(() => {
+        updateConnectorCoordinates()
+      })
+      resizeObserver.observe(containerRef.current)
+    }
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+      if (resizeObserver) resizeObserver.disconnect()
+    }
+  }, [])
+
+  // Re-calculate slightly after mount to account for fonts / rendering
+  useEffect(() => {
+    const timer = setTimeout(updateConnectorCoordinates, 80)
+    return () => clearTimeout(timer)
+  }, [])
+
+  // Cyclical highlight when user is not hovering
+  useEffect(() => {
+    if (prefersReducedMotion || hoveredIndex !== null) return undefined
+    const interval = setInterval(() => {
+      setActiveCycleIndex((prev) => (prev + 1) % integrationTypes.length)
+    }, 2800)
+    return () => clearInterval(interval)
+  }, [hoveredIndex, prefersReducedMotion])
+
+  const activeNode = hoveredIndex !== null ? hoveredIndex : activeCycleIndex
+
+  return (
+    <div
+      ref={containerRef}
+      className="integration-diagram"
+      aria-label="Business systems connected to AI employees"
+    >
+      {/* SVG Connecting Flow Lines & Signal Pulses (Positioned in background behind Hub & Pills) */}
+      <svg
+        className="ecosystem-svg-canvas"
+        style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, zIndex: 0 }}
+        aria-hidden="true"
+      >
+        <defs>
+          <linearGradient id="hubGradientActive" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#2861b8" stopOpacity="0.95" />
+            <stop offset="100%" stopColor="#5aa8ff" stopOpacity="0.5" />
+          </linearGradient>
+          <linearGradient id="hubGradientBase" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#c5daf2" stopOpacity="0.85" />
+            <stop offset="100%" stopColor="#a3c4ed" stopOpacity="0.45" />
+          </linearGradient>
+          <filter id="hubGlowFilter" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+        </defs>
+
+        {/* 6 Clean Guaranteed Connector Lines Measured Direct from Hub Center to Pill Center */}
+        {lines.map((line, idx) => {
+          const isHighlighted = activeNode === idx
+          return (
+            <g key={idx}>
+              <line
+                x1={line.x1}
+                y1={line.y1}
+                x2={line.x2}
+                y2={line.y2}
+                stroke={isHighlighted ? 'url(#hubGradientActive)' : 'url(#hubGradientBase)'}
+                strokeWidth={isHighlighted ? '2.5' : '1.5'}
+                strokeDasharray={isHighlighted ? '6 4' : '4 4'}
+                className={isHighlighted ? 'ecosystem-line is-active-line' : 'ecosystem-line'}
+                style={{
+                  transition: 'stroke 0.25s ease, stroke-width 0.25s ease',
+                  filter: isHighlighted ? 'url(#hubGlowFilter)' : 'none',
+                }}
+              />
+              {/* Traveling light pulse along the line */}
+              {!prefersReducedMotion && line.x1 !== line.x2 && (
+                <circle r={isHighlighted ? '4.5' : '3'} fill={isHighlighted ? '#2861b8' : '#7ba8de'}>
+                  <animateMotion
+                    dur={isHighlighted ? '1.8s' : '3.6s'}
+                    repeatCount="indefinite"
+                    path={`M ${line.x1} ${line.y1} L ${line.x2} ${line.y2}`}
+                  />
+                </circle>
+              )}
+            </g>
+          )
+        })}
+      </svg>
+
+      {/* Central Orchestration Core (AVENQEO AI Workforce) cleanly centered */}
+      <motion.div
+        ref={hubRef}
+        className="diagram-node center-node"
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        animate={
+          prefersReducedMotion
+            ? {}
+            : {
+                boxShadow: [
+                  '0 12px 32px rgba(16, 37, 68, 0.22)',
+                  '0 16px 44px rgba(40, 97, 189, 0.36)',
+                  '0 12px 32px rgba(16, 37, 68, 0.22)',
+                ],
+              }
+        }
+        whileHover={{ scale: 1.04, translateY: -2 }}
+        onAnimationComplete={updateConnectorCoordinates}
+      >
+        <div className="center-node-aura" aria-hidden="true" />
+        <span className="hub-top-tag">AVENQEO</span>
+        <strong className="hub-core-name">AI Workforce</strong>
+        <span className="hub-status-indicator">
+          <span className="hub-live-dot" />
+          Active Orchestration
+        </span>
+      </motion.div>
+
+      {/* Six Radially Arranged Surrounding Category Pills */}
+      {integrationTypes.map((type, index) => {
+        const isSelected = activeNode === index
+        return (
+          <motion.div
+            key={type}
+            ref={(el) => (pillRefs.current[index] = el)}
+            className={`diagram-node outer-node node-${index + 1} ${
+              isSelected ? 'is-highlighted-pill' : ''
+            }`}
+            initial={{ opacity: 0, y: 14, scale: 0.92 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.45, delay: index * 0.07, ease: 'easeOut' }}
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
+            whileHover={{ scale: 1.05, translateY: -3 }}
+            onAnimationComplete={updateConnectorCoordinates}
+          >
+            <span className="node-indicator-dot" />
+            <span className="node-text">{type}</span>
+          </motion.div>
+        )
+      })}
+    </div>
+  )
+}
+
 function ConnectedIntelligence() {
   return (
     <section className="section integrations-section" id="integrations">
       <div className="container">
         <SectionLabel>CONNECTED INTELLIGENCE</SectionLabel>
-        <div className="section-heading">
+        <motion.div
+          className="section-heading"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
           <h2>Your business already has a system. Your AI employees should fit into it.</h2>
           <p>
             AVENQEO AI is designed to work alongside existing systems in a way that respects current processes, permissions and business logic.
           </p>
-        </div>
+        </motion.div>
 
-        <div className="integration-diagram" aria-label="Business systems connected to AI employees">
-          <div className="diagram-node center-node">
-            <span>AVENQEO</span>
-            <strong>AI Workforce</strong>
-          </div>
-          {integrationTypes.map((type, index) => (
-            <div key={type} className={`diagram-node outer-node node-${index + 1}`}>
-              {type}
-            </div>
-          ))}
-        </div>
+        {/* Ecosystem Radial Hub */}
+        <EcosystemHub />
 
+        {/* Integration Category Cards */}
         <div className="integration-grid">
-          {integrationTypes.map((type) => (
-            <article className="integration-card" key={type}>
+          {integrationTypes.map((type, idx) => (
+            <motion.article
+              className="integration-card"
+              key={type}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.35, delay: idx * 0.05 }}
+              whileHover={{ scale: 1.025, translateY: -3 }}
+            >
               <span className="integration-mark" aria-hidden="true">↗</span>
               <h3>{type}</h3>
-            </article>
+            </motion.article>
           ))}
         </div>
       </div>
@@ -790,15 +1288,27 @@ function ResponsibleAI() {
     <section className="section governance-section" id="responsible-ai">
       <div className="container">
         <SectionLabel>RESPONSIBLE AI EXECUTION</SectionLabel>
-        <div className="section-heading governance-heading">
+        <motion.div
+          className="section-heading governance-heading"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
           <h2>Intelligent execution needs responsible control.</h2>
           <p>
             AI can support speed and efficiency, but it must operate within clear boundaries and human oversight. Permissions, approvals and records are part of the system design, not an afterthought.
           </p>
-        </div>
+        </motion.div>
 
         <div className="governance-demo">
-          <div className="governance-board">
+          <motion.div
+            className="governance-board"
+            initial={{ opacity: 0, x: -18 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
             <div className="governance-topbar">
               <div className="tiny-row">
                 <ShieldCheck size={14} />
@@ -823,9 +1333,15 @@ function ResponsibleAI() {
                 Reject
               </button>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="governance-panel">
+          <motion.div
+            className="governance-panel"
+            initial={{ opacity: 0, x: 18 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
             <div className="panel-header-row">
               <span>Execution record</span>
               <span className="chip chip-success">{approvalState === 'approved' ? 'Approved' : approvalState === 'rejected' ? 'Rejected' : 'Pending'}</span>
@@ -845,7 +1361,7 @@ function ResponsibleAI() {
                 </div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -856,7 +1372,13 @@ function FinalCTA() {
   return (
     <section className="final-cta-section" id="contact">
       <div className="container">
-        <div className="final-cta-panel">
+        <motion.div
+          className="final-cta-panel"
+          initial={{ opacity: 0, scale: 0.96, y: 24 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        >
           <SectionLabel>LET&apos;S BUILD WHAT&apos;S NEXT</SectionLabel>
           <h2>The future of your workforce starts with a conversation.</h2>
           <p>Discover how intelligent digital employees could fit into your business.</p>
@@ -865,7 +1387,7 @@ function FinalCTA() {
               <Mail size={16} /> Book a Consultation
             </a>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   )

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Header, Footer } from './components/Layout'
+import { ScrollToTopAndAskAI } from './components/ScrollToTopAndAskAI'
 import Home from './pages/Home'
 
 export default function App() {
@@ -10,6 +11,8 @@ export default function App() {
         <Home />
       </main>
       <Footer />
+      <ScrollToTopAndAskAI />
     </>
   )
 }
+
