@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { AnimatePresence, motion, useInView, useReducedMotion } from 'motion/react'
+import { AnimatePresence, MotionConfig, motion, useInView, useReducedMotion } from 'motion/react'
 import {
   ArrowRight,
   Bot,
@@ -7,9 +7,6 @@ import {
   ChevronRight,
   Mail,
   MessageSquareText,
-  Pause,
-  Play,
-  RefreshCw,
   ShieldCheck,
   Users,
 } from 'lucide-react'
@@ -71,7 +68,7 @@ const agents = [
     progress: ['Intent matched', 'Order verified', 'Policy check', 'Response drafted'],
     outcome: 'The refund request is resolved within policy and the customer receives a clear follow-up with a status timeline.',
     accent: 'support',
-    tone: '#5aa8ff',
+    tone: '#3B82F6',
     demo: {
       label: 'Approval queue',
       status: 'Awaiting review',
@@ -91,7 +88,7 @@ const agents = [
     progress: ['Audience brief', 'Campaign themes', 'Content drafts', 'Approval review'],
     outcome: 'The campaign concept is ready for review with messaging, pillars and draft content mapped across channels.',
     accent: 'marketing',
-    tone: '#6470ff',
+    tone: '#6366F1',
     demo: {
       label: 'Campaign routing',
       status: 'Awaiting approval',
@@ -111,7 +108,7 @@ const agents = [
     progress: ['Request logged', 'Workflow checks', 'Approvals pending', 'Launch summary'],
     outcome: 'The onboarding timeline is structured, missing approvals are surfaced and the next owners are clearly assigned.',
     accent: 'operations',
-    tone: '#26b3a5',
+    tone: '#14B8A6',
     demo: {
       label: 'Operational flow',
       status: 'Processing',
@@ -131,7 +128,7 @@ const agents = [
     progress: ['Applications reviewed', 'Interview notes pulled', 'Candidate ranking', 'Scheduling'],
     outcome: 'Candidate summaries and interview notes are consolidated so HR can review fit and next steps faster.',
     accent: 'hr',
-    tone: '#ff9a4d',
+    tone: '#F59E0B',
     demo: {
       label: 'Hiring workflow',
       status: 'Ready for review',
@@ -162,6 +159,8 @@ const integrationTypes = [
   'Productivity and Collaboration Applications',
 ]
 
+const integrationAccents = ['#3B82F6', '#6366F1', '#14B8A6', '#F59E0B', '#10B981', '#4F46E5']
+
 const governancePillars = ['Permissions and access controls', 'Human approval', 'Execution records', 'Data protection', 'Exception escalation', 'Monitoring']
 
 function SectionLabel({ children }) {
@@ -170,12 +169,9 @@ function SectionLabel({ children }) {
 
 function HeroDashboard() {
   const [activeIndex, setActiveIndex] = useState(0)
-  const [paused, setPaused] = useState(false)
   const [progressStep, setProgressStep] = useState(0)
-  const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
-    if (paused || prefersReducedMotion) return undefined
     const timer = window.setInterval(() => {
       setProgressStep((current) => {
         if (current >= 3) {
@@ -186,7 +182,7 @@ function HeroDashboard() {
       })
     }, 1500)
     return () => window.clearInterval(timer)
-  }, [paused, prefersReducedMotion])
+  }, [])
 
   const activeAgent = agents[activeIndex]
 
@@ -197,20 +193,12 @@ function HeroDashboard() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
     >
-      <div className="dashboard-shell">
+      <div className="dashboard-shell" style={{ '--role-accent': activeAgent.tone }}>
         <div className="dashboard-header">
           <div className="dashboard-header-label">
             <span className="status-pill status-pill-live">Illustrative workflow</span>
             <span className="dashboard-title">AVENQEO AI</span>
           </div>
-          <button
-            type="button"
-            className="icon-toggle"
-            aria-label={paused ? 'Play dashboard workflow' : 'Pause dashboard workflow'}
-            onClick={() => setPaused((state) => !state)}
-          >
-            {paused ? <Play size={14} /> : <Pause size={14} />}
-          </button>
         </div>
 
         <div className="dashboard-overview">
@@ -240,7 +228,11 @@ function HeroDashboard() {
         <div className="dashboard-grid">
           <div className="employee-stack">
             {agents.map((agent, index) => (
-              <div key={agent.id} className={`employee-row ${index === activeIndex ? 'is-active' : ''}`}>
+              <div
+                key={agent.id}
+                className={`employee-row ${index === activeIndex ? 'is-active' : ''}`}
+                style={{ '--role-accent': agent.tone }}
+              >
                 <span className="employee-bullet" style={{ background: agent.tone }} />
                 <div>
                   <strong>{agent.name}</strong>
@@ -387,16 +379,18 @@ function PhilosophyVisual() {
       <svg className="philosophy-flow-svg" viewBox="0 0 400 280" preserveAspectRatio="none" aria-hidden="true">
         <defs>
           <linearGradient id="flowGradHuman" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#2861b8" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#26b3a5" stopOpacity="0.15" />
+            <stop offset="0%" stopColor="#3B82F6" stopOpacity="0.48" />
+            <stop offset="55%" stopColor="#6366F1" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#14B8A6" stopOpacity="0.18" />
           </linearGradient>
           <linearGradient id="flowGradAI" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#5aa8ff" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#26b3a5" stopOpacity="0.15" />
+            <stop offset="0%" stopColor="#6366F1" stopOpacity="0.46" />
+            <stop offset="55%" stopColor="#4F46E5" stopOpacity="0.28" />
+            <stop offset="100%" stopColor="#10B981" stopOpacity="0.18" />
           </linearGradient>
           <radialGradient id="signalGlow" r="50%">
-            <stop offset="0%" stopColor="#2861b8" stopOpacity="1" />
-            <stop offset="100%" stopColor="#5aa8ff" stopOpacity="0" />
+            <stop offset="0%" stopColor="#6366F1" stopOpacity="1" />
+            <stop offset="100%" stopColor="#3B82F6" stopOpacity="0" />
           </radialGradient>
         </defs>
 
@@ -420,7 +414,7 @@ function PhilosophyVisual() {
         <path
           d="M 120 70 Q 200 40, 280 70"
           fill="none"
-          stroke="rgba(40, 97, 189, 0.2)"
+          stroke="rgba(99, 102, 241, 0.24)"
           strokeWidth="1.5"
           strokeDasharray="3 5"
         />
@@ -428,14 +422,14 @@ function PhilosophyVisual() {
         {/* Dynamic traveling signals across paths (disabled if prefersReducedMotion) */}
         {!prefersReducedMotion && (
           <>
-            <circle r="3.5" fill="#2861b8">
+            <circle r="3.5" fill="#3B82F6">
               <animateMotion
                 dur="3.8s"
                 repeatCount="indefinite"
                 path="M 100 80 Q 140 180, 200 230"
               />
             </circle>
-            <circle r="3.5" fill="#5aa8ff">
+            <circle r="3.5" fill="#6366F1">
               <animateMotion
                 dur="3.8s"
                 begin="1.9s"
@@ -443,7 +437,7 @@ function PhilosophyVisual() {
                 path="M 300 80 Q 260 180, 200 230"
               />
             </circle>
-            <circle r="2.5" fill="#26b3a5">
+            <circle r="2.5" fill="#10B981">
               <animateMotion
                 dur="4.5s"
                 repeatCount="indefinite"
@@ -677,6 +671,7 @@ function WorkforceSelector() {
                 key={agent.id}
                 type="button"
                 className={`employee-tab ${agent.id === activeId ? 'is-selected' : ''}`}
+                style={{ '--role-accent': agent.tone }}
                 onClick={() => setActiveId(agent.id)}
                 initial={{ opacity: 0, x: -14 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -699,6 +694,7 @@ function WorkforceSelector() {
             <motion.div
               key={activeAgent.id}
               className="employee-detail"
+              style={{ '--role-accent': activeAgent.tone }}
               initial={{ opacity: 0, x: 16 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -16 }}
@@ -777,27 +773,19 @@ function WorkforceSelector() {
 function ProductDemo() {
   const [activeId, setActiveId] = useState(agents[0].id)
   const [demoStep, setDemoStep] = useState(0)
-  const [demoPlaying, setDemoPlaying] = useState(true)
-  const prefersReducedMotion = useReducedMotion()
 
   const activeAgent = agents.find((agent) => agent.id === activeId) || agents[0]
 
   useEffect(() => {
-    if (!demoPlaying || prefersReducedMotion) return undefined
     const timer = window.setInterval(() => {
       setDemoStep((current) => (current + 1) % Math.max(activeAgent.demo.steps.length, 1))
     }, 1400)
     return () => window.clearInterval(timer)
-  }, [activeId, demoPlaying, activeAgent.demo.steps.length, prefersReducedMotion])
+  }, [activeId, activeAgent.demo.steps.length])
 
   useEffect(() => {
     setDemoStep(0)
   }, [activeId])
-
-  const handleReplay = () => {
-    setDemoStep(0)
-    setDemoPlaying(true)
-  }
 
   return (
     <section className="section product-section" id="product-experience">
@@ -818,6 +806,7 @@ function ProductDemo() {
 
         <motion.div
           className="product-demo"
+          style={{ '--role-accent': activeAgent.tone }}
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
@@ -829,6 +818,7 @@ function ProductDemo() {
                 key={agent.id}
                 type="button"
                 className={`demo-tab ${agent.id === activeId ? 'is-active' : ''}`}
+                style={{ '--role-accent': agent.tone }}
                 onClick={() => setActiveId(agent.id)}
                 role="tab"
                 aria-selected={agent.id === activeId}
@@ -844,16 +834,6 @@ function ProductDemo() {
               <div>
                 <p className="demo-kicker">Illustrative product demonstration — not a live connected system.</p>
                 <h3>{activeAgent.name}</h3>
-              </div>
-              <div className="demo-controls">
-                <button type="button" className="control-button" onClick={() => setDemoPlaying((state) => !state)}>
-                  {demoPlaying ? <Pause size={14} /> : <Play size={14} />}
-                  {demoPlaying ? 'Pause' : 'Play'}
-                </button>
-                <button type="button" className="control-button secondary" onClick={handleReplay}>
-                  <RefreshCw size={14} />
-                  Replay
-                </button>
               </div>
             </div>
 
@@ -882,7 +862,12 @@ function ProductDemo() {
                 </div>
                 <div className="workflow-track">
                   {activeAgent.demo.steps.map((step, index) => (
-                    <div key={step} className={`workflow-marker ${index <= demoStep ? 'is-active' : ''}`}>
+                    <div
+                      key={step}
+                      className={`workflow-marker ${index <= demoStep ? 'is-active' : ''} ${
+                        index < demoStep ? 'is-complete' : index === demoStep ? 'is-current' : ''
+                      }`}
+                    >
                       <span>{index + 1}</span>
                       {step}
                     </div>
@@ -899,7 +884,12 @@ function ProductDemo() {
                 </div>
                 <div className="status-stack">
                   {activeAgent.progress.map((item, index) => (
-                    <div key={item} className={`status-item ${index <= demoStep ? 'done' : ''}`}>
+                    <div
+                      key={item}
+                      className={`status-item ${index <= demoStep ? 'done' : ''} ${
+                        index === demoStep ? 'is-current' : ''
+                      }`}
+                    >
                       <span className="status-bullet" />
                       <span>{item}</span>
                     </div>
@@ -925,22 +915,17 @@ function ProductDemo() {
 function HowItWorks() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: false, amount: 0.4 })
-  const prefersReducedMotion = useReducedMotion()
   const [workflowStep, setWorkflowStep] = useState(0)
 
   useEffect(() => {
     if (!inView) return undefined
-    if (prefersReducedMotion) {
-      setWorkflowStep(5)
-      return undefined
-    }
 
     const delay = workflowStep === 5 ? 1800 : workflowStep === 0 ? 650 : 850
     const timer = window.setTimeout(() => {
       setWorkflowStep((step) => (step >= 5 ? 0 : step + 1))
     }, delay)
     return () => window.clearTimeout(timer)
-  }, [inView, prefersReducedMotion, workflowStep])
+  }, [inView, workflowStep])
 
   return (
     <section className="section execution-section" id="how-it-works" ref={ref}>
@@ -960,7 +945,12 @@ function HowItWorks() {
           <div className="workflow-main" style={{ '--workflow-progress': `${workflowStep >= 5 ? 100 : Math.max(0, ((workflowStep - 1) / 3) * 100)}%` }}>
             <div className="workflow-stage-list">
               {workflowStages.map((stage, index) => (
-                <div className={`workflow-stage ${workflowStep >= index + 1 ? 'is-active' : ''}`} key={stage}>
+                <div
+                  className={`workflow-stage ${workflowStep >= index + 1 ? 'is-active' : ''} ${
+                    workflowStep > index + 1 ? 'is-complete' : workflowStep === index + 1 ? 'is-current' : ''
+                  }`}
+                  key={stage}
+                >
                   <span className="stage-dot">{workflowStep > index + 1 ? <CheckCircle2 size={14} /> : index + 1}</span>
                   <span className="stage-name">{stage}</span>
                 </div>
@@ -1030,7 +1020,6 @@ function EcosystemHub() {
   const containerRef = useRef(null)
   const hubRef = useRef(null)
   const pillRefs = useRef([])
-  const [hoveredIndex, setHoveredIndex] = useState(null)
   const [activeCycleIndex, setActiveCycleIndex] = useState(0)
   const [lines, setLines] = useState([])
   const prefersReducedMotion = useReducedMotion()
@@ -1097,16 +1086,13 @@ function EcosystemHub() {
     return () => clearTimeout(timer)
   }, [])
 
-  // Cyclical highlight when user is not hovering
+  // Keep the diagram highlight moving independently of pointer interaction.
   useEffect(() => {
-    if (prefersReducedMotion || hoveredIndex !== null) return undefined
     const interval = setInterval(() => {
       setActiveCycleIndex((prev) => (prev + 1) % integrationTypes.length)
     }, 2800)
     return () => clearInterval(interval)
-  }, [hoveredIndex, prefersReducedMotion])
-
-  const activeNode = hoveredIndex !== null ? hoveredIndex : activeCycleIndex
+  }, [])
 
   return (
     <div
@@ -1121,13 +1107,9 @@ function EcosystemHub() {
         aria-hidden="true"
       >
         <defs>
-          <linearGradient id="hubGradientActive" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#2861b8" stopOpacity="0.95" />
-            <stop offset="100%" stopColor="#5aa8ff" stopOpacity="0.5" />
-          </linearGradient>
           <linearGradient id="hubGradientBase" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#c5daf2" stopOpacity="0.85" />
-            <stop offset="100%" stopColor="#a3c4ed" stopOpacity="0.45" />
+            <stop offset="0%" stopColor="#d2e2f8" stopOpacity="0.85" />
+            <stop offset="100%" stopColor="#d8d8fb" stopOpacity="0.5" />
           </linearGradient>
           <filter id="hubGlowFilter" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="3" result="blur" />
@@ -1137,7 +1119,7 @@ function EcosystemHub() {
 
         {/* 6 Clean Guaranteed Connector Lines Measured Direct from Hub Center to Pill Center */}
         {lines.map((line, idx) => {
-          const isHighlighted = activeNode === idx
+          const isHighlighted = activeCycleIndex === idx
           return (
             <g key={idx}>
               <line
@@ -1145,18 +1127,18 @@ function EcosystemHub() {
                 y1={line.y1}
                 x2={line.x2}
                 y2={line.y2}
-                stroke={isHighlighted ? 'url(#hubGradientActive)' : 'url(#hubGradientBase)'}
+                stroke={isHighlighted ? integrationAccents[idx] : 'url(#hubGradientBase)'}
                 strokeWidth={isHighlighted ? '2.5' : '1.5'}
                 strokeDasharray={isHighlighted ? '6 4' : '4 4'}
                 className={isHighlighted ? 'ecosystem-line is-active-line' : 'ecosystem-line'}
-                style={{
-                  transition: 'stroke 0.25s ease, stroke-width 0.25s ease',
-                  filter: isHighlighted ? 'url(#hubGlowFilter)' : 'none',
-                }}
+                style={{ filter: isHighlighted ? 'url(#hubGlowFilter)' : 'none' }}
               />
               {/* Traveling light pulse along the line */}
               {!prefersReducedMotion && line.x1 !== line.x2 && (
-                <circle r={isHighlighted ? '4.5' : '3'} fill={isHighlighted ? '#2861b8' : '#7ba8de'}>
+                <circle
+                  r={isHighlighted ? '4.5' : '3'}
+                  fill={isHighlighted ? integrationAccents[idx] : '#a9bfdc'}
+                >
                   <animateMotion
                     dur={isHighlighted ? '1.8s' : '3.6s'}
                     repeatCount="indefinite"
@@ -1177,18 +1159,7 @@ function EcosystemHub() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        animate={
-          prefersReducedMotion
-            ? {}
-            : {
-                boxShadow: [
-                  '0 12px 32px rgba(16, 37, 68, 0.22)',
-                  '0 16px 44px rgba(40, 97, 189, 0.36)',
-                  '0 12px 32px rgba(16, 37, 68, 0.22)',
-                ],
-              }
-        }
-        whileHover={{ scale: 1.04, translateY: -2 }}
+        whileHover={{ scale: 1.04 }}
         onAnimationComplete={updateConnectorCoordinates}
       >
         <div className="center-node-aura" aria-hidden="true" />
@@ -1202,7 +1173,7 @@ function EcosystemHub() {
 
       {/* Six Radially Arranged Surrounding Category Pills */}
       {integrationTypes.map((type, index) => {
-        const isSelected = activeNode === index
+        const isSelected = activeCycleIndex === index
         return (
           <motion.div
             key={type}
@@ -1210,13 +1181,12 @@ function EcosystemHub() {
             className={`diagram-node outer-node node-${index + 1} ${
               isSelected ? 'is-highlighted-pill' : ''
             }`}
+            style={{ '--node-accent': integrationAccents[index] }}
             initial={{ opacity: 0, y: 14, scale: 0.92 }}
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.45, delay: index * 0.07, ease: 'easeOut' }}
-            onMouseEnter={() => setHoveredIndex(index)}
-            onMouseLeave={() => setHoveredIndex(null)}
-            whileHover={{ scale: 1.05, translateY: -3 }}
+            whileHover={{ scale: 1.05 }}
             onAnimationComplete={updateConnectorCoordinates}
           >
             <span className="node-indicator-dot" />
@@ -1324,15 +1294,6 @@ function ResponsibleAI() {
                 <span>Risk: Medium</span>
               </div>
             </div>
-
-            <div className="approval-actions">
-              <button type="button" className="decision-button approve" onClick={() => handleDecision('approve')}>
-                Approve
-              </button>
-              <button type="button" className="decision-button reject" onClick={() => handleDecision('reject')}>
-                Reject
-              </button>
-            </div>
           </motion.div>
 
           <motion.div
@@ -1395,7 +1356,7 @@ function FinalCTA() {
 
 export default function Home() {
   return (
-    <>
+    <MotionConfig reducedMotion="user">
       <Hero />
       <BusinessChallenge />
       <WorkforceSelector />
@@ -1405,6 +1366,6 @@ export default function Home() {
       <ConnectedIntelligence />
       <ResponsibleAI />
       <FinalCTA />
-    </>
+    </MotionConfig>
   )
 }
