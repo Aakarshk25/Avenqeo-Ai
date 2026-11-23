@@ -9,6 +9,15 @@ import {
   MessageSquareText,
   ShieldCheck,
   Users,
+  Megaphone,
+  Workflow,
+  UsersRound,
+  RefreshCw,
+  Network,
+  Target,
+  Clock,
+  ChartNoAxesCombined,
+  Sparkles,
 } from 'lucide-react'
 
 const challenges = [
@@ -68,7 +77,7 @@ const agents = [
     progress: ['Intent matched', 'Order verified', 'Policy check', 'Response drafted'],
     outcome: 'The refund request is resolved within policy and the customer receives a clear follow-up with a status timeline.',
     accent: 'support',
-    tone: '#3B82F6',
+    tone: '#F06464',
     demo: {
       label: 'Approval queue',
       status: 'Awaiting review',
@@ -88,7 +97,7 @@ const agents = [
     progress: ['Audience brief', 'Campaign themes', 'Content drafts', 'Approval review'],
     outcome: 'The campaign concept is ready for review with messaging, pillars and draft content mapped across channels.',
     accent: 'marketing',
-    tone: '#6366F1',
+    tone: '#00AFA0',
     demo: {
       label: 'Campaign routing',
       status: 'Awaiting approval',
@@ -108,7 +117,7 @@ const agents = [
     progress: ['Request logged', 'Workflow checks', 'Approvals pending', 'Launch summary'],
     outcome: 'The onboarding timeline is structured, missing approvals are surfaced and the next owners are clearly assigned.',
     accent: 'operations',
-    tone: '#14B8A6',
+    tone: '#E6B325',
     demo: {
       label: 'Operational flow',
       status: 'Processing',
@@ -116,28 +125,45 @@ const agents = [
     },
   },
   {
-    id: 'hr',
+    id: 'community',
     number: '04',
-    name: 'HR AI',
-    category: 'Recruitment and people operations',
-    shortSummary: 'Helps organise hiring, onboarding and employee request triage.',
-    description: 'Supports HR teams by structuring candidate information, coordinating interviews and managing policy-based employee requests.',
-    capabilities: ['Organise candidate applications', 'Summarise candidate fit against job criteria', 'Coordinate interview scheduling', 'Support onboarding and policy retrieval'],
-    task: 'Three candidates have completed interviews for a product role and need review.',
-    reasoning: ['Compare candidate records with job criteria', 'Pull structured interview notes', 'Prepare a ranked hiring brief', 'Coordinate next decisions and scheduling'],
-    progress: ['Applications reviewed', 'Interview notes pulled', 'Candidate ranking', 'Scheduling'],
-    outcome: 'Candidate summaries and interview notes are consolidated so HR can review fit and next steps faster.',
-    accent: 'hr',
-    tone: '#F59E0B',
+    name: 'Community AI',
+    category: 'Community engagement and coordination',
+    shortSummary: 'Organises community conversations and routes shared feedback.',
+    description: 'Supports community teams by moderating approved conversations, identifying recurring themes and coordinating timely responses.',
+    capabilities: ['Monitor community conversations', 'Classify feedback and emerging themes', 'Prepare context-aware responses', 'Route sensitive issues for human review'],
+    task: 'A product community thread contains repeated questions about a new feature.',
+    reasoning: ['Review community posts and shared context', 'Identify recurring questions and sentiment', 'Prepare approved response guidance', 'Route priority issues to community leaders'],
+    progress: ['Conversations grouped', 'Themes identified', 'Guidance prepared', 'Issues routed'],
+    outcome: 'Community themes are summarised and priority questions are routed with clear, consistent response guidance.',
+    accent: 'community',
+    tone: '#7657D8',
     demo: {
-      label: 'Hiring workflow',
+      label: 'Community workflow',
       status: 'Ready for review',
-      steps: ['Candidate review', 'Interview notes', 'Ranking summary', 'Scheduling'],
+      steps: ['Thread review', 'Theme grouping', 'Response drafted', 'Community follow-up'],
     },
   },
 ]
 
 const workflowStages = ['Understand', 'Decide', 'Execute', 'Report']
+
+const challengeStyles = {
+  repetitive: { color: '#F06464', background: '#FCE8E8', icon: RefreshCw },
+  disconnected: { color: '#00AFA0', background: '#DDF7F3', icon: Network },
+  capacity: { color: '#E67E22', background: '#FFF0E1', icon: UsersRound },
+  focus: { color: '#7657D8', background: '#EEE7FF', icon: Target },
+}
+
+function AgentRoleIcon({ agent, size = 14 }) {
+  const Icon =
+    agent.id === 'customer-support' ? MessageSquareText :
+    agent.id === 'marketing' ? Megaphone :
+    agent.id === 'operations' ? Workflow :
+    UsersRound
+
+  return <Icon size={size} aria-hidden="true" />
+}
 
 const industries = [
   { name: 'Banking and Financial Services', description: 'Support onboarding, service triage and policy-driven customer journeys.' },
@@ -153,7 +179,7 @@ const industries = [
 const integrationTypes = [
   'Communication and Email Applications',
   'CRM and Sales Platforms',
-  'HR and Recruitment Systems',
+  'Community and Engagement Platforms',
   'Business Management Software',
   'Data Warehouses and Analytics',
   'Productivity and Collaboration Applications',
@@ -233,7 +259,9 @@ function HeroDashboard() {
                 className={`employee-row ${index === activeIndex ? 'is-active' : ''}`}
                 style={{ '--role-accent': agent.tone }}
               >
-                <span className="employee-bullet" style={{ background: agent.tone }} />
+                <span className="employee-bullet" style={{ color: agent.tone }}>
+                  <AgentRoleIcon agent={agent} size={12} />
+                </span>
                 <div>
                   <strong>{agent.name}</strong>
                   <small>{index === activeIndex ? workflowStages[progressStep] : 'Ready'}</small>
@@ -338,9 +366,6 @@ function Hero() {
             <a className="button button-primary hero-primary-btn" href="#workforce">
               Explore the AI Workforce <ArrowRight size={16} className="btn-arrow-icon" />
             </a>
-            <a className="button button-outline" href="#contact">
-              Book a Consultation
-            </a>
           </motion.div>
 
           <motion.p
@@ -358,7 +383,6 @@ function Hero() {
       </div>
 
       <div className="hero-bottomline container" aria-hidden="true">
-        <span>AVENQEO AI | Built for what comes after next.</span>
         <span>INTELLIGENT WORKFORCE</span>
       </div>
     </section>
@@ -519,7 +543,24 @@ function PhilosophyVisual() {
 
 function BusinessChallenge() {
   const [selectedChallenge, setSelectedChallenge] = useState(challenges[0].id)
+  const [rotationReset, setRotationReset] = useState(0)
   const activeChallenge = challenges.find((challenge) => challenge.id === selectedChallenge) || challenges[0]
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setSelectedChallenge((activeId) => {
+        const activeIndex = challenges.findIndex((challenge) => challenge.id === activeId)
+        return challenges[(activeIndex + 1) % challenges.length].id
+      })
+    }, 9500)
+
+    return () => window.clearInterval(timer)
+  }, [rotationReset])
+
+  const selectChallenge = (challengeId) => {
+    setSelectedChallenge(challengeId)
+    setRotationReset((current) => current + 1)
+  }
 
   return (
     <section className="section challenge-section" id="solutions">
@@ -534,7 +575,7 @@ function BusinessChallenge() {
         >
           <h2>Businesses are growing. Work is growing faster.</h2>
           <p>
-            As businesses expand, responsibilities multiply across customer service, marketing, HR and operations. The challenge is not just volume — it is the complexity of coordinating work across teams and systems.
+            As businesses expand, responsibilities multiply across customer service, marketing, community engagement and operations. The challenge is not just volume — it is the complexity of coordinating work across teams and systems.
           </p>
         </motion.div>
 
@@ -545,7 +586,8 @@ function BusinessChallenge() {
                 key={challenge.id}
                 type="button"
                 className={`challenge-option ${challenge.id === selectedChallenge ? 'is-selected' : ''}`}
-                onClick={() => setSelectedChallenge(challenge.id)}
+                style={{ '--challenge-accent': challengeStyles[challenge.id].color }}
+                onClick={() => selectChallenge(challenge.id)}
                 initial={{ opacity: 0, x: -16 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
@@ -553,7 +595,19 @@ function BusinessChallenge() {
                 whileHover={{ scale: 1.015 }}
                 whileTap={{ scale: 0.99 }}
               >
-                <span className="option-number">{challenge.number}</span>
+                <span
+                  className="option-number"
+                  style={{
+                    '--challenge-icon': challengeStyles[challenge.id].color,
+                    background: challengeStyles[challenge.id].background,
+                  }}
+                  aria-hidden="true"
+                >
+                  {React.createElement(challengeStyles[challenge.id].icon, {
+                    size: 27,
+                    strokeWidth: 2.2,
+                  })}
+                </span>
                 <div>
                   <strong>{challenge.title}</strong>
                   <small>{challenge.text}</small>
@@ -577,15 +631,24 @@ function BusinessChallenge() {
               </div>
               <div className="challenge-demo-grid">
                 <div className="challenge-demo-item">
-                  <span className="demo-item-label">The challenge</span>
+                  <span className="demo-item-label">
+                    <span className="challenge-detail-icon"><Clock size={16} strokeWidth={2.2} /></span>
+                    The challenge
+                  </span>
                   <p>{activeChallenge.problem}</p>
                 </div>
                 <div className="challenge-demo-item">
-                  <span className="demo-item-label">Where work gets stuck</span>
+                  <span className="demo-item-label">
+                    <span className="challenge-detail-icon chart-icon"><ChartNoAxesCombined size={16} strokeWidth={2.2} /></span>
+                    Where work gets stuck
+                  </span>
                   <p>{activeChallenge.difficulty}</p>
                 </div>
                 <div className="challenge-demo-item challenge-demo-assist">
-                  <span className="demo-item-label"><Bot size={14} /> How an AI employee can help</span>
+                  <span className="demo-item-label">
+                    <span className="challenge-detail-icon sparkles-icon"><Sparkles size={16} strokeWidth={2.2} /></span>
+                    How an AI employee can help
+                  </span>
                   <p>{activeChallenge.detail}</p>
                 </div>
               </div>
@@ -680,7 +743,9 @@ function WorkforceSelector() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <span className="employee-number">{agent.number}</span>
+                <span className="employee-number">
+                  <AgentRoleIcon agent={agent} size={14} />
+                </span>
                 <div className="employee-tab-copy">
                   <strong>{agent.name}</strong>
                   <small>{agent.category}</small>
@@ -1345,7 +1410,7 @@ function FinalCTA() {
           <p>Discover how intelligent digital employees could fit into your business.</p>
           <div className="cta-row">
             <a className="button button-primary" href="mailto:hello@avenqeo.ai">
-              <Mail size={16} /> Book a Consultation
+              <Mail size={16} /> Book a Demo
             </a>
           </div>
         </motion.div>

@@ -53,10 +53,10 @@ export function ScrollToTopAndAskAI() {
 
     // Contextual responses matching Avenqeo AI theme
     setTimeout(() => {
-      let botReply = "Thank you for asking! AVENQEO AI builds specialised digital employees (Customer Support, Marketing, Operations, and HR) with human oversight and continuous governance."
+      let botReply = "Thank you for asking! AVENQEO AI builds specialised digital employees (Customer Support, Marketing, Operations, and Community) with human oversight and continuous governance."
       const lower = userText.toLowerCase()
       if (lower.includes('price') || lower.includes('cost') || lower.includes('consult')) {
-        botReply = "Our solutions are tailored to your company's operational needs. You can click 'Book a Consultation' in the navigation bar to discuss custom scopes with our team."
+        botReply = "Our solutions are tailored to your company's operational needs. You can click 'Book a Demo' in the navigation bar to discuss custom scopes with our team."
       } else if (lower.includes('support') || lower.includes('customer')) {
         botReply = "Our Customer Support AI classifies incoming tickets, checks policy in real-time, drafts responses, and prepares escalations for human approval."
       } else if (lower.includes('security') || lower.includes('privacy') || lower.includes('safe') || lower.includes('governance')) {
