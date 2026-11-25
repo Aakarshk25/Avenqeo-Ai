@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 
 const NAV_ITEMS = [
   { label: 'AI Workforce', href: '#workforce' },
@@ -14,6 +15,7 @@ const NAV_ITEMS = [
 export function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const { pathname } = useLocation()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 48)
@@ -35,9 +37,9 @@ export function Header() {
   return (
     <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
       <div className="header-inner container">
-        <a className="brand" href="#home" aria-label="AVENQEO AI home" onClick={closeMenu}>
-          <img className="brand-logo" src="/avenqeo-logo.png" alt="Avenqeo AI" />
-        </a>
+        <Link className="brand" to="/#home" aria-label="AVENQEO AI home" onClick={closeMenu}>
+          <img className="brand-logo" src="/avenqeo-logo-transparent.png" alt="Avenqeo AI" />
+        </Link>
 
         <button
           className="mobile-menu-toggle"
@@ -54,11 +56,17 @@ export function Header() {
 
         <nav id="primary-navigation" className={`primary-nav${menuOpen ? ' is-open' : ''}`} aria-label="Main navigation">
           {NAV_ITEMS.map((item) => (
-            <a key={item.href} href={item.href} onClick={closeMenu}>
+            <Link key={item.href} to={pathname === '/' ? item.href : `/${item.href}`} onClick={closeMenu}>
               {item.label}
-            </a>
+            </Link>
           ))}
-          <a className="nav-consultation" href="#contact" onClick={closeMenu}>Book a Demo</a>
+          <Link
+            className="nav-consultation"
+            to="/book-a-demo"
+            onClick={closeMenu}
+          >
+            Book a Demo
+          </Link>
         </nav>
       </div>
     </header>
@@ -66,13 +74,15 @@ export function Header() {
 }
 
 export function Footer() {
+  const { pathname } = useLocation()
+
   return (
     <footer className="site-footer">
       <div className="container footer-main">
         <nav className="footer-nav" aria-label="Footer navigation">
-          <a href="#home">Home</a>
+          <Link to="/#home">Home</Link>
           {NAV_ITEMS.filter((item) => item.label !== 'Contact').map((item) => (
-            <a key={item.href} href={item.href}>{item.label}</a>
+            <Link key={item.href} to={pathname === '/' ? item.href : `/${item.href}`}>{item.label}</Link>
           ))}
         </nav>
 
@@ -80,7 +90,7 @@ export function Footer() {
 
       <div className="container footer-bottom">
         <span>© {new Date().getFullYear()} All rights reserved.</span>
-        <a href="#home">Back to top ↑</a>
+        <Link to="/#home">Back to top ↑</Link>
       </div>
     </footer>
   )

@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion, useInView, useReducedMotion } from 'motion/react'
+import { Link } from 'react-router-dom'
 import {
   ArrowRight,
   Bot,
   CheckCircle2,
   ChevronRight,
-  Mail,
+  CalendarClock,
   MessageSquareText,
   ShieldCheck,
   Users,
@@ -194,7 +195,7 @@ function SectionLabel({ children }) {
 }
 
 function HeroDashboard() {
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [activeIndex, setActiveIndex] = useState(1)
   const [progressStep, setProgressStep] = useState(0)
 
   useEffect(() => {
@@ -239,7 +240,7 @@ function HeroDashboard() {
             </div>
           </div>
 
-          <div className="overview-card overview-activity">
+          <div className={`overview-card overview-activity overview-activity--${activeAgent.id}`}>
             <div className="tiny-row">
               <span className="tiny-dot" />
               <span>{activeAgent.name}</span>
@@ -256,10 +257,10 @@ function HeroDashboard() {
             {agents.map((agent, index) => (
               <div
                 key={agent.id}
-                className={`employee-row ${index === activeIndex ? 'is-active' : ''}`}
+                className={`employee-row employee-row--${agent.id} ${index === activeIndex ? 'is-active' : ''}`}
                 style={{ '--role-accent': agent.tone }}
               >
-                <span className="employee-bullet" style={{ color: agent.tone }}>
+                <span className="employee-bullet">
                   <AgentRoleIcon agent={agent} size={12} />
                 </span>
                 <div>
@@ -1409,9 +1410,9 @@ function FinalCTA() {
           <h2>The future of your workforce starts with a conversation.</h2>
           <p>Discover how intelligent digital employees could fit into your business.</p>
           <div className="cta-row">
-            <a className="button button-primary" href="mailto:hello@avenqeo.ai">
-              <Mail size={16} /> Book a Demo
-            </a>
+            <Link className="button button-primary" to="/book-a-demo">
+              <CalendarClock size={16} /> Book a Demo
+            </Link>
           </div>
         </motion.div>
       </div>

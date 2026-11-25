@@ -1,0 +1,191 @@
+.cal-booking-embed {
+  position: relative;
+  min-height: 558px;
+  overflow: hidden;
+  background: #0b1220;
+}
+
+.cal-inline-embed {
+  min-height: 558px;
+}
+
+.cal-inline-embed iframe {
+  display: block;
+  width: 100% !important;
+  min-height: 558px !important;
+  border: 0 !important;
+  background: #0b1220;
+}
+
+.cal-embed-state {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  padding: 22px;
+  background: #0b1220;
+  color: #cbd5e1;
+}
+
+.cal-embed-skeleton {
+  display: grid;
+  gap: 20px;
+  height: 100%;
+}
+
+.cal-skeleton-details {
+  display: grid;
+  width: min(220px, 42%);
+  align-content: start;
+  gap: 10px;
+}
+
+.cal-skeleton-block {
+  display: block;
+  border-radius: 6px;
+  background: linear-gradient(100deg, #17242c 25%, #21352d 45%, #17242c 65%);
+  background-size: 220% 100%;
+  animation: cal-skeleton-shimmer 1.8s ease-in-out infinite;
+}
+
+.cal-skeleton-title {
+  width: 78%;
+  height: 14px;
+}
+
+.cal-skeleton-subtitle {
+  width: 56%;
+  height: 10px;
+}
+
+.cal-skeleton-short {
+  width: 34%;
+  height: 9px;
+}
+
+.cal-skeleton-booker {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(120px, .56fr);
+  gap: 24px;
+}
+
+.cal-skeleton-calendar {
+  display: grid;
+  align-content: start;
+  gap: 15px;
+}
+
+.cal-skeleton-month {
+  width: 36%;
+  height: 12px;
+  margin-bottom: 3px;
+}
+
+.cal-skeleton-weekdays,
+.cal-skeleton-dates {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.cal-skeleton-weekdays .cal-skeleton-block {
+  height: 7px;
+  border-radius: 4px;
+  opacity: .7;
+}
+
+.cal-skeleton-dates .cal-skeleton-block {
+  aspect-ratio: 1;
+  max-height: 34px;
+  border-radius: 50%;
+}
+
+.cal-skeleton-times {
+  display: grid;
+  align-content: start;
+  gap: 9px;
+}
+
+.cal-skeleton-times .cal-skeleton-block {
+  height: 31px;
+  border: 1px solid rgba(148, 163, 184, .1);
+  border-radius: 8px;
+}
+
+.cal-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+.cal-embed-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.cal-embed-error p {
+  max-width: 340px;
+  margin: 0;
+  color: #cbd5e1;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.cal-embed-error button {
+  padding: 9px 14px;
+  border: 1px solid rgba(74, 222, 128, .28);
+  border-radius: 9px;
+  background: rgba(34, 197, 94, .1);
+  color: #86efac;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color .18s ease, border-color .18s ease;
+}
+
+.cal-embed-error button:hover {
+  border-color: rgba(74, 222, 128, .5);
+  background: rgba(34, 197, 94, .16);
+}
+
+@keyframes cal-skeleton-shimmer {
+  to { background-position: -220% 0; }
+}
+
+@media (max-width: 680px) {
+  .cal-booking-embed,
+  .cal-inline-embed,
+  .cal-inline-embed iframe {
+    min-height: 760px !important;
+  }
+
+  .cal-embed-state {
+    padding: 18px 14px;
+  }
+
+  .cal-skeleton-booker {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .cal-skeleton-times {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cal-skeleton-block {
+    animation: none;
+  }
+
+  .cal-embed-error button {
+    transition: none;
+  }
+}

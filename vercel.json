@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/book-a-demo",
+      "destination": "/"
+    }
+  ]
+}
