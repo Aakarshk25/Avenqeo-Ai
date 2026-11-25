@@ -187,7 +187,7 @@
   background: rgba(255, 255, 255, .96);
   box-shadow: 0 7px 20px rgba(37, 78, 131, .075);
   color: var(--rai-ink);
-  cursor: help;
+  cursor: default;
   transform: translate(-50%, -50%);
   transition: border-color .35s ease, box-shadow .35s ease, background .35s ease, transform .35s ease;
 }
@@ -271,61 +271,6 @@
 .rai-node.is-active .rai-node__activity {
   background: #1ab1d9;
   box-shadow: 0 0 0 4px rgba(26, 177, 217, .13), 0 0 11px rgba(26, 177, 217, .42);
-}
-
-.rai-node[data-tooltip]::after {
-  position: absolute;
-  z-index: 8;
-  bottom: calc(100% + 9px);
-  left: 50%;
-  width: max-content;
-  max-width: 215px;
-  padding: 9px 11px;
-  border: 1px solid rgba(255, 255, 255, .14);
-  border-radius: 9px;
-  background: #122a4b;
-  box-shadow: 0 8px 22px rgba(18, 42, 75, .2);
-  color: #f7fbff;
-  content: attr(data-tooltip);
-  font-size: 10px;
-  font-weight: 500;
-  line-height: 1.45;
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, 4px);
-  transition: opacity .2s ease, transform .2s ease;
-  visibility: hidden;
-}
-
-.rai-node:hover::after,
-.rai-node:focus-visible::after {
-  opacity: 1;
-  transform: translate(-50%, 0);
-  visibility: visible;
-}
-
-.rai-node--app[data-tooltip]::after,
-.rai-node--agent.rai-node--left-one[data-tooltip]::after {
-  left: 0;
-  transform: translate(0, 4px);
-}
-
-.rai-node--app:hover::after,
-.rai-node--app:focus-visible::after,
-.rai-node--agent.rai-node--left-one:hover::after,
-.rai-node--agent.rai-node--left-one:focus-visible::after {
-  transform: translate(0, 0);
-}
-
-.rai-node--agent.rai-node--left-four[data-tooltip]::after {
-  right: 0;
-  left: auto;
-  transform: translate(0, 4px);
-}
-
-.rai-node--agent.rai-node--left-four:hover::after,
-.rai-node--agent.rai-node--left-four:focus-visible::after {
-  transform: translate(0, 0);
 }
 
 .rai-node--app {
@@ -837,7 +782,7 @@
   }
 
   .rai-ecosystem__group-label--apps {
-    top: 7%;
+    top: 5%;
     left: 8%;
   }
 
@@ -867,36 +812,6 @@
   .rai-node--app.rai-node--right-two,
   .rai-node--app.rai-node--right-four {
     left: 75%;
-  }
-
-  .rai-node--app.rai-node--right-two[data-tooltip]::after,
-  .rai-node--app.rai-node--right-four[data-tooltip]::after,
-  .rai-node--agent.rai-node--left-two[data-tooltip]::after,
-  .rai-node--agent.rai-node--left-four[data-tooltip]::after {
-    right: 0;
-    left: auto;
-    transform: translate(0, 4px);
-  }
-
-  .rai-node--agent.rai-node--left-three[data-tooltip]::after {
-    left: 0;
-    transform: translate(0, 4px);
-  }
-
-  .rai-node--app.rai-node--right-two:hover::after,
-  .rai-node--app.rai-node--right-two:focus-visible::after,
-  .rai-node--app.rai-node--right-four:hover::after,
-  .rai-node--app.rai-node--right-four:focus-visible::after,
-  .rai-node--agent.rai-node--left-two:hover::after,
-  .rai-node--agent.rai-node--left-two:focus-visible::after,
-  .rai-node--agent.rai-node--left-four:hover::after,
-  .rai-node--agent.rai-node--left-four:focus-visible::after {
-    transform: translate(0, 0);
-  }
-
-  .rai-node--agent.rai-node--left-three:hover::after,
-  .rai-node--agent.rai-node--left-three:focus-visible::after {
-    transform: translate(0, 0);
   }
 
   .rai-node--app.rai-node--right-one,

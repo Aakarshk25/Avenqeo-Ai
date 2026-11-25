@@ -7,10 +7,11 @@ import {
   LockKeyhole,
   Megaphone,
   MessageCircle,
+  Sparkles,
   UserRoundCheck,
   Workflow,
 } from 'lucide-react'
-import { siFacebook, siInstagram, siShopify, siWhatsapp } from 'simple-icons'
+import { siClaude, siGithubcopilot, siGooglegemini } from 'simple-icons'
 import './ResponsibleAIEcosystem.css'
 
 const agentNodes = [
@@ -50,46 +51,46 @@ const agentNodes = [
 
 const applicationNodes = [
   {
-    id: 'instagram',
-    name: 'Instagram',
-    purpose: 'Example social channel; availability depends on configuration.',
-    icon: siInstagram,
+    id: 'chatgpt',
+    name: 'ChatGPT',
+    purpose: 'Example AI assistant; availability depends on configuration.',
+    brandColor: '#10A37F',
     pattern: 'right-one',
   },
   {
-    id: 'whatsapp',
-    name: 'WhatsApp',
-    purpose: 'Example messaging channel; availability depends on configuration.',
-    icon: siWhatsapp,
+    id: 'claude',
+    name: 'Claude AI',
+    purpose: 'Example AI assistant; availability depends on configuration.',
+    icon: siClaude,
     pattern: 'right-two',
   },
   {
-    id: 'facebook',
-    name: 'Facebook',
-    purpose: 'Example social channel; availability depends on configuration.',
-    icon: siFacebook,
+    id: 'gemini',
+    name: 'Gemini',
+    purpose: 'Example AI assistant; availability depends on configuration.',
+    icon: siGooglegemini,
     pattern: 'right-three',
   },
   {
-    id: 'shopify',
-    name: 'Shopify',
-    purpose: 'Example business application; availability depends on configuration.',
-    icon: siShopify,
+    id: 'copilot',
+    name: 'GitHub Copilot',
+    purpose: 'Example AI assistant; availability depends on configuration.',
+    icon: siGithubcopilot,
     pattern: 'right-four',
   },
 ]
 
 const activityPatterns = [
-  ['support', 'instagram', 'operations', 'shopify'],
-  ['marketing', 'shopify', 'community', 'facebook'],
-  ['support', 'whatsapp', 'marketing', 'instagram'],
+  ['support', 'chatgpt', 'operations', 'copilot'],
+  ['marketing', 'copilot', 'community', 'gemini'],
+  ['support', 'claude', 'marketing', 'chatgpt'],
 ]
 
 const desktopConnections = [
-  { nodeId: 'instagram', d: 'M 120 112 C 245 112, 282 255, 420 310' },
-  { nodeId: 'whatsapp', d: 'M 120 236 C 245 236, 300 292, 420 310' },
-  { nodeId: 'facebook', d: 'M 120 360 C 245 360, 300 330, 420 310' },
-  { nodeId: 'shopify', d: 'M 120 465 C 245 465, 282 355, 420 310' },
+  { nodeId: 'chatgpt', d: 'M 120 112 C 245 112, 282 255, 420 310' },
+  { nodeId: 'claude', d: 'M 120 236 C 245 236, 300 292, 420 310' },
+  { nodeId: 'gemini', d: 'M 120 360 C 245 360, 300 330, 420 310' },
+  { nodeId: 'copilot', d: 'M 120 465 C 245 465, 282 355, 420 310' },
   { nodeId: 'support', d: 'M 204 545 C 260 445, 310 370, 420 310' },
   { nodeId: 'marketing', d: 'M 468 545 C 450 445, 435 370, 420 310' },
   { nodeId: 'operations', d: 'M 732 545 C 615 445, 515 370, 420 310' },
@@ -97,10 +98,10 @@ const desktopConnections = [
 ]
 
 const mobileConnections = [
-  { nodeId: 'instagram', d: 'M 90 89 C 90 160, 145 220, 180 305' },
-  { nodeId: 'whatsapp', d: 'M 270 89 C 270 160, 215 220, 180 305' },
-  { nodeId: 'facebook', d: 'M 90 186 C 90 230, 145 260, 180 305' },
-  { nodeId: 'shopify', d: 'M 270 186 C 270 230, 215 260, 180 305' },
+  { nodeId: 'chatgpt', d: 'M 90 89 C 90 160, 145 220, 180 305' },
+  { nodeId: 'claude', d: 'M 270 89 C 270 160, 215 220, 180 305' },
+  { nodeId: 'gemini', d: 'M 90 186 C 90 230, 145 260, 180 305' },
+  { nodeId: 'copilot', d: 'M 270 186 C 270 230, 215 260, 180 305' },
   { nodeId: 'support', d: 'M 90 640 C 90 525, 145 415, 180 305' },
   { nodeId: 'marketing', d: 'M 270 640 C 270 525, 215 415, 180 305' },
   { nodeId: 'operations', d: 'M 90 714 C 90 550, 145 440, 180 305' },
@@ -171,31 +172,27 @@ function ConversationPreview() {
     <div className="rai-conversation" role="group" aria-label="Sample campaign conversation, illustrative only">
       <div className="rai-conversation__header">
         <span className="rai-conversation__app">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d={siWhatsapp.path} fill="currentColor" />
-          </svg>
+          <Sparkles size={15} aria-hidden="true" />
         </span>
         <span className="rai-conversation__title">
-          <strong>Marketing workspace</strong>
-          <span>Sample conversation</span>
+          <strong>ChatGPT workspace</strong>
+          <span>Illustrative assistant session</span>
         </span>
         <span className="rai-conversation__sample">PREVIEW</span>
       </div>
       <div className="rai-conversation__body">
         <div className="rai-conversation__message rai-conversation__message--user">
-          Turn this week&apos;s five-star reviews into an Instagram post for Friday.
+          Turn this week&apos;s product notes into a launch announcement for Friday.
         </div>
         <div className="rai-conversation__message rai-conversation__message--ai">
-          I prepared a draft from the selected reviews. It&apos;s ready for your team to review before publishing.
+          I prepared a draft from the approved notes. It&apos;s ready for your team to review before publishing.
         </div>
         <div className="rai-conversation__draft">
           <span className="rai-conversation__draft-icon">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d={siInstagram.path} fill="currentColor" />
-            </svg>
+            <Sparkles size={15} aria-hidden="true" />
           </span>
           <span className="rai-conversation__draft-copy">
-            <strong>Instagram post draft</strong>
+            <strong>Launch announcement draft</strong>
             <small>Campaign content · Not published</small>
           </span>
           <span className="rai-conversation__draft-state">Review</span>
@@ -220,7 +217,6 @@ function AgentNode({ node, isActive }) {
       role="group"
       tabIndex={0}
       aria-label={`${node.name}. ${node.purpose}`}
-      data-tooltip={node.purpose}
     >
       <span className="rai-node__icon"><Icon size={17} strokeWidth={1.8} aria-hidden="true" /></span>
       <span className="rai-node__copy">
@@ -241,12 +237,15 @@ function ApplicationNode({ node, isActive }) {
       role="group"
       tabIndex={0}
       aria-label={`${node.name}. ${node.purpose}`}
-      data-tooltip={node.purpose}
     >
-      <span className="rai-node__icon rai-node__icon--brand" style={{ '--brand-color': `#${icon.hex}` }}>
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d={icon.path} fill="currentColor" />
-        </svg>
+      <span className="rai-node__icon rai-node__icon--brand" style={{ '--brand-color': node.brandColor || `#${icon.hex}` }}>
+        {icon ? (
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d={icon.path} fill="currentColor" />
+          </svg>
+        ) : (
+          <Sparkles size={17} strokeWidth={1.9} aria-hidden="true" />
+        )}
       </span>
       <span className="rai-node__name">{node.name}</span>
       <span className="rai-node__activity" aria-hidden="true" />
@@ -301,7 +300,7 @@ function EcosystemVisualization({ isVisible, shouldReduceMotion }) {
           role="group"
           aria-label="Illustrative Avenqeo AI ecosystem visualization"
         >
-          <span className="rai-ecosystem__group-label rai-ecosystem__group-label--apps">CONNECTED CHANNELS</span>
+          <span className="rai-ecosystem__group-label rai-ecosystem__group-label--apps">CONNECTED AI ASSISTANTS</span>
           <span className="rai-ecosystem__group-label rai-ecosystem__group-label--agents">SPECIALISED AI EMPLOYEES</span>
 
           <svg className="rai-connections rai-connections--desktop" viewBox="0 0 1200 620" preserveAspectRatio="none" aria-hidden="true">

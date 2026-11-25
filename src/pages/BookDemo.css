@@ -202,4 +202,8 @@
   .booking-calendar-header h2 {
     font-size: 14px;
   }
+
+  .cal-embed-error button {
+    min-height: 44px;
+  }
 }
