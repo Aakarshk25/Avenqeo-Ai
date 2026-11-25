@@ -13,54 +13,54 @@ import {
   Megaphone,
   Workflow,
   UsersRound,
-  RefreshCw,
   Network,
   Target,
   Clock,
   ChartNoAxesCombined,
   Sparkles,
 } from 'lucide-react'
+import ConnectedIntelligenceDemo from '../components/ConnectedIntelligenceDemo'
 
 const challenges = [
   {
     id: 'repetitive',
     number: '01',
-    title: 'Repetitive Tasks',
-    text: 'Too much time spent on everyday manual work.',
-    problem: 'Teams are trapped in volume-heavy task loops where even small processes consume large amounts of time.',
-    difficulty: 'High-volume requests repeatedly compete for the same team attention.',
-    detail: 'An AI employee can sort requests, gather context and prepare the next action for human review.',
-    metric: 'High task volume',
+    title: 'Missed Enquiries',
+    text: 'New requests wait while teams work through the queue.',
+    problem: 'Enquiries arrive through inboxes, forms and chat, and busy queues can leave people waiting.',
+    difficulty: 'Manual sorting makes urgent requests easy to overlook.',
+    detail: 'An AI employee can group enquiries, surface priority requests and draft the next response for review.',
+    metric: 'Unanswered requests',
   },
   {
     id: 'disconnected',
     number: '02',
-    title: 'Disconnected Workflows',
-    text: 'Business processes spread across different systems.',
-    problem: 'Critical work sits across email, spreadsheets, support tools and internal documents with no clear path between them.',
+    title: 'Delayed Follow-ups',
+    text: 'Handoffs across teams make next steps easy to miss.',
+    problem: 'Customer and operational requests stall while context moves between email, CRM and internal teams.',
     difficulty: 'Ownership and context are lost between tools and handoffs.',
-    detail: 'An AI employee can connect the steps, keep task status visible and route work to the right owner.',
-    metric: 'Fragmented execution',
+    detail: 'An AI employee can keep request status visible and route the next step to the right owner.',
+    metric: 'Slow handoffs',
   },
   {
     id: 'capacity',
     number: '03',
-    title: 'Limited Capacity',
-    text: 'Growing responsibilities with limited operational resources.',
-    problem: 'Teams are expected to do more while staffing stays flat, creating delays and overlooked tasks.',
-    difficulty: 'Growing queues make it harder to keep priority work moving.',
-    detail: 'An AI employee can triage routine work and surface exceptions so people can focus their attention.',
-    metric: 'Growing backlog',
+    title: 'Manual Reporting',
+    text: 'Teams assemble updates from several tools by hand.',
+    problem: 'People spend time gathering status from inboxes, spreadsheets and business systems.',
+    difficulty: 'Hours spent compiling updates leave less time for exceptions and analysis.',
+    detail: 'An AI employee can gather approved inputs and prepare a review-ready summary.',
+    metric: 'Manual status updates',
   },
   {
     id: 'focus',
     number: '04',
-    title: 'Less Strategic Focus',
-    text: 'Less time for planning, innovation and growth.',
-    problem: 'Daily process friction leaves teams with less time for planning, experimentation and long-term improvement.',
-    difficulty: 'Reactive coordination leaves little space for strategic work.',
-    detail: 'An AI employee can coordinate recurring tasks and give teams more room to plan and improve.',
-    metric: 'Strategic delay',
+    title: 'Inconsistent Campaigns',
+    text: 'Campaign output varies between channels and teams.',
+    problem: 'Campaign plans, content drafts and approvals can drift as work passes between people.',
+    difficulty: 'Disconnected briefs and review cycles make messaging inconsistent.',
+    detail: 'Marketing AI can organise campaign themes and draft channel content from approved briefs for review.',
+    metric: 'Scattered campaign work',
   },
 ]
 
@@ -150,9 +150,9 @@ const agents = [
 const workflowStages = ['Understand', 'Decide', 'Execute', 'Report']
 
 const challengeStyles = {
-  repetitive: { color: '#F06464', background: '#FCE8E8', icon: RefreshCw },
-  disconnected: { color: '#00AFA0', background: '#DDF7F3', icon: Network },
-  capacity: { color: '#E67E22', background: '#FFF0E1', icon: UsersRound },
+  repetitive: { color: '#3B82F6', background: '#DBEAFE', icon: MessageSquareText },
+  disconnected: { color: '#6366F1', background: '#E0E7FF', icon: Clock },
+  capacity: { color: '#14B8A6', background: '#CCFBF1', icon: ChartNoAxesCombined },
   focus: { color: '#7657D8', background: '#EEE7FF', icon: Target },
 }
 
@@ -186,7 +186,25 @@ const integrationTypes = [
   'Productivity and Collaboration Applications',
 ]
 
-const integrationAccents = ['#3B82F6', '#6366F1', '#14B8A6', '#F59E0B', '#10B981', '#4F46E5']
+const ecosystemNodes = ['Supported AI assistants', ...integrationTypes]
+const integrationAccents = ['#8B5CF6', '#3B82F6', '#6366F1', '#14B8A6', '#F59E0B', '#10B981', '#4F46E5']
+const ecosystemBenefits = [
+  {
+    title: 'Connect across your stack',
+    description: 'Coordinate supported AI assistants and business systems through available APIs and MCP connections.',
+    icon: Network,
+  },
+  {
+    title: 'Move real work forward',
+    description: 'Route requests into prepared actions, drafts and updates that fit your team’s workflows.',
+    icon: Workflow,
+  },
+  {
+    title: 'Keep people in control',
+    description: 'Use permissions, approval gates and activity records to keep human oversight in the loop.',
+    icon: ShieldCheck,
+  },
+]
 
 const governancePillars = ['Permissions and access controls', 'Human approval', 'Execution records', 'Data protection', 'Exception escalation', 'Monitoring']
 
@@ -839,15 +857,20 @@ function WorkforceSelector() {
 function ProductDemo() {
   const [activeId, setActiveId] = useState(agents[0].id)
   const [demoStep, setDemoStep] = useState(0)
+  const demoRef = useRef(null)
+  const isDemoInView = useInView(demoRef, { once: false, amount: 0.12 })
+  const prefersReducedMotion = useReducedMotion()
 
   const activeAgent = agents.find((agent) => agent.id === activeId) || agents[0]
 
   useEffect(() => {
+    if (!isDemoInView || prefersReducedMotion) return undefined
+
     const timer = window.setInterval(() => {
       setDemoStep((current) => (current + 1) % Math.max(activeAgent.demo.steps.length, 1))
     }, 1400)
     return () => window.clearInterval(timer)
-  }, [activeId, activeAgent.demo.steps.length])
+  }, [activeId, activeAgent.demo.steps.length, isDemoInView, prefersReducedMotion])
 
   useEffect(() => {
     setDemoStep(0)
@@ -856,7 +879,7 @@ function ProductDemo() {
   return (
     <section className="section product-section" id="product-experience">
       <div className="container">
-        <SectionLabel>SEE INTELLIGENT EMPLOYEES AT WORK</SectionLabel>
+        <SectionLabel>EXAMPLE WORKFLOWS</SectionLabel>
         <motion.div
           className="section-heading product-heading"
           initial={{ opacity: 0, y: 18 }}
@@ -864,13 +887,14 @@ function ProductDemo() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
         >
-          <h2>See intelligent employees at work.</h2>
+          <h2>See an AI employee prepare work for review.</h2>
           <p>
-            This illustrative interface shows how an AI employee can interpret inputs, guide a workflow and surface a clear human-ready outcome without pretending to be a live connected system.
+            Explore illustrative examples across the four roles. Each shows how a request can become prepared work and a human-ready outcome; these are not live connected systems.
           </p>
         </motion.div>
 
         <motion.div
+          ref={demoRef}
           className="product-demo"
           style={{ '--role-accent': activeAgent.tone }}
           initial={{ opacity: 0, y: 24 }}
@@ -981,22 +1005,35 @@ function ProductDemo() {
 function HowItWorks() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: false, amount: 0.4 })
-  const [workflowStep, setWorkflowStep] = useState(0)
+  const [workflowStep, setWorkflowStep] = useState(1)
+  const prefersReducedMotion = useReducedMotion()
 
   useEffect(() => {
-    if (!inView) return undefined
+    if (!inView || prefersReducedMotion) return undefined
 
-    const delay = workflowStep === 5 ? 1800 : workflowStep === 0 ? 650 : 850
+    const delay = workflowStep === 5 ? 1800 : 850
     const timer = window.setTimeout(() => {
-      setWorkflowStep((step) => (step >= 5 ? 0 : step + 1))
+      setWorkflowStep((step) => (step >= 5 ? 1 : step + 1))
     }, delay)
     return () => window.clearTimeout(timer)
-  }, [inView, workflowStep])
+  }, [inView, workflowStep, prefersReducedMotion])
 
   return (
     <section className="section execution-section" id="how-it-works" ref={ref}>
       <div className="container">
         <SectionLabel>HOW IT WORKS</SectionLabel>
+        <motion.div
+          className="section-heading execution-heading"
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        >
+          <h2>From incoming request to review-ready result.</h2>
+          <p>
+            AI employees understand the request, decide what action fits, execute within approved permissions and report a clear outcome for human review.
+          </p>
+        </motion.div>
         <div className="workflow-demo">
           <motion.div
             className="workflow-task-card"
@@ -1089,16 +1126,8 @@ function EcosystemHub() {
   const [activeCycleIndex, setActiveCycleIndex] = useState(0)
   const [lines, setLines] = useState([])
   const prefersReducedMotion = useReducedMotion()
+  const isInView = useInView(containerRef, { once: false, amount: 0.12 })
 
-  // Symmetrical percentage anchors around the center:
-  // Node 1: Top Center (50%, 42px)
-  // Node 2: Top Right (82%, 140px)
-  // Node 3: Bottom Right (80%, 350px)
-  // Node 4: Bottom Center (50%, 450px)
-  // Node 5: Bottom Left (20%, 350px)
-  // Node 6: Top Left (18%, 140px)
-
-  // Measure exact rendered centers of Hub and Pills relative to container
   const updateConnectorCoordinates = () => {
     if (!containerRef.current || !hubRef.current) return
     const containerRect = containerRef.current.getBoundingClientRect()
@@ -1138,6 +1167,10 @@ function EcosystemHub() {
         updateConnectorCoordinates()
       })
       resizeObserver.observe(containerRef.current)
+      if (hubRef.current) resizeObserver.observe(hubRef.current)
+      pillRefs.current.forEach((pillEl) => {
+        if (pillEl) resizeObserver.observe(pillEl)
+      })
     }
 
     return () => {
@@ -1146,25 +1179,26 @@ function EcosystemHub() {
     }
   }, [])
 
-  // Re-calculate slightly after mount to account for fonts / rendering
   useEffect(() => {
     const timer = setTimeout(updateConnectorCoordinates, 80)
     return () => clearTimeout(timer)
   }, [])
 
-  // Keep the diagram highlight moving independently of pointer interaction.
   useEffect(() => {
+    if (!isInView || prefersReducedMotion) return undefined
+
     const interval = setInterval(() => {
-      setActiveCycleIndex((prev) => (prev + 1) % integrationTypes.length)
+      setActiveCycleIndex((prev) => (prev + 1) % ecosystemNodes.length)
     }, 2800)
     return () => clearInterval(interval)
-  }, [])
+  }, [isInView, prefersReducedMotion])
 
   return (
     <div
       ref={containerRef}
       className="integration-diagram"
-      aria-label="Business systems connected to AI employees"
+      role="group"
+      aria-label="Illustrative map of supported AI assistants and business application categories"
     >
       {/* SVG Connecting Flow Lines & Signal Pulses (Positioned in background behind Hub & Pills) */}
       <svg
@@ -1183,7 +1217,6 @@ function EcosystemHub() {
           </filter>
         </defs>
 
-        {/* 6 Clean Guaranteed Connector Lines Measured Direct from Hub Center to Pill Center */}
         {lines.map((line, idx) => {
           const isHighlighted = activeCycleIndex === idx
           return (
@@ -1225,20 +1258,18 @@ function EcosystemHub() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        whileHover={{ scale: 1.04 }}
         onAnimationComplete={updateConnectorCoordinates}
       >
         <div className="center-node-aura" aria-hidden="true" />
         <span className="hub-top-tag">AVENQEO</span>
         <strong className="hub-core-name">AI Workforce</strong>
         <span className="hub-status-indicator">
-          <span className="hub-live-dot" />
-          Active Orchestration
+          <span className="hub-live-dot" aria-hidden="true" />
+          Permission-aware orchestration
         </span>
       </motion.div>
 
-      {/* Six Radially Arranged Surrounding Category Pills */}
-      {integrationTypes.map((type, index) => {
+      {ecosystemNodes.map((type, index) => {
         const isSelected = activeCycleIndex === index
         return (
           <motion.div
@@ -1252,7 +1283,6 @@ function EcosystemHub() {
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.45, delay: index * 0.07, ease: 'easeOut' }}
-            whileHover={{ scale: 1.05 }}
             onAnimationComplete={updateConnectorCoordinates}
           >
             <span className="node-indicator-dot" />
@@ -1265,46 +1295,7 @@ function EcosystemHub() {
 }
 
 function ConnectedIntelligence() {
-  return (
-    <section className="section integrations-section" id="integrations">
-      <div className="container">
-        <SectionLabel>CONNECTED INTELLIGENCE</SectionLabel>
-        <motion.div
-          className="section-heading"
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-        >
-          <h2>Your business already has a system. Your AI employees should fit into it.</h2>
-          <p>
-            AVENQEO AI is designed to work alongside existing systems in a way that respects current processes, permissions and business logic.
-          </p>
-        </motion.div>
-
-        {/* Ecosystem Radial Hub */}
-        <EcosystemHub />
-
-        {/* Integration Category Cards */}
-        <div className="integration-grid">
-          {integrationTypes.map((type, idx) => (
-            <motion.article
-              className="integration-card"
-              key={type}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.35, delay: idx * 0.05 }}
-              whileHover={{ scale: 1.025, translateY: -3 }}
-            >
-              <span className="integration-mark" aria-hidden="true">↗</span>
-              <h3>{type}</h3>
-            </motion.article>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
+  return <ConnectedIntelligenceDemo />
 }
 
 function ResponsibleAI() {
@@ -1426,10 +1417,10 @@ export default function Home() {
       <Hero />
       <BusinessChallenge />
       <WorkforceSelector />
-      <ProductDemo />
-      <HowItWorks />
-      <Industries />
       <ConnectedIntelligence />
+      <HowItWorks />
+      <ProductDemo />
+      <Industries />
       <ResponsibleAI />
       <FinalCTA />
     </MotionConfig>

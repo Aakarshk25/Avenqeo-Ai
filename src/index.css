@@ -2482,3 +2482,278 @@ section[id] { scroll-margin-top: calc(var(--header-height) + 18px); }
   height: 32px;
 }
 
+.integrations-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 12% 18%, rgba(59, 130, 246, .10), transparent 34%),
+    radial-gradient(ellipse at 88% 82%, rgba(139, 92, 246, .10), transparent 38%),
+    linear-gradient(135deg, #080f1e, #111e33 76%);
+}
+
+.integrations-section .section-label {
+  border: 1px solid rgba(56, 189, 248, .28);
+  background: rgba(8, 145, 178, .14);
+  color: #67e8f9;
+}
+
+.integrations-section .section-heading {
+  max-width: 860px;
+  margin-bottom: 30px;
+}
+
+.integrations-section .section-heading h2 {
+  color: #f8fafc;
+}
+
+.integrations-section .section-heading p {
+  color: #b8c6da;
+}
+
+.integrations-section .integration-diagram {
+  width: min(100%, 1040px);
+  height: 520px;
+  margin-bottom: 14px;
+}
+
+.integration-diagram .diagram-node.outer-node {
+  max-width: 260px;
+  white-space: normal;
+  line-height: 1.35;
+  cursor: default;
+}
+
+.integration-diagram .center-node {
+  cursor: default;
+}
+
+.integration-diagram .node-1 {
+  top: 24px;
+  right: auto;
+  bottom: auto;
+  left: 50%;
+  translate: -50% 0;
+}
+
+.integration-diagram .node-2 {
+  top: 102px;
+  right: 3%;
+  bottom: auto;
+  left: auto;
+  translate: none;
+}
+
+.integration-diagram .node-3 {
+  top: 218px;
+  right: 1%;
+  bottom: auto;
+  left: auto;
+  translate: none;
+}
+
+.integration-diagram .node-4 {
+  top: auto;
+  right: 4%;
+  bottom: 82px;
+  left: auto;
+  translate: none;
+}
+
+.integration-diagram .node-5 {
+  top: auto;
+  right: auto;
+  bottom: 22px;
+  left: 50%;
+  translate: -50% 0;
+}
+
+.integration-diagram .node-6 {
+  top: auto;
+  right: auto;
+  bottom: 82px;
+  left: 4%;
+  translate: none;
+}
+
+.integration-diagram .node-7 {
+  top: 102px;
+  right: auto;
+  bottom: auto;
+  left: 3%;
+  translate: none;
+}
+
+.integration-diagram .diagram-node.outer-node.is-highlighted-pill {
+  border-color: var(--node-accent);
+  background: linear-gradient(145deg, #1d3b5c, #172c48);
+  box-shadow: 0 10px 26px rgba(2, 6, 23, .36), 0 0 16px rgba(56, 189, 248, .12);
+}
+
+.integration-diagram .diagram-node.outer-node.is-highlighted-pill .node-indicator-dot {
+  background: var(--node-accent);
+  box-shadow: 0 0 0 4px rgba(148, 163, 184, .12);
+}
+
+.ecosystem-note {
+  max-width: 760px;
+  margin: 0 auto 28px;
+  color: #94a3b8;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.ecosystem-benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.ecosystem-benefit-card {
+  min-width: 0;
+  padding: 21px;
+  border: 1px solid #293b59;
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(25, 46, 73, .78), rgba(17, 30, 51, .72));
+  box-shadow: 0 12px 30px rgba(2, 6, 23, .18), inset 0 1px rgba(148, 163, 184, .05);
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+
+.ecosystem-benefit-card:hover {
+  transform: translateY(-3px);
+  border-color: #3b5f89;
+  box-shadow: 0 16px 34px rgba(2, 6, 23, .24), 0 0 18px rgba(59, 130, 246, .08);
+}
+
+.ecosystem-benefit-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  margin-bottom: 16px;
+  place-items: center;
+  border: 1px solid rgba(56, 189, 248, .18);
+  border-radius: 12px;
+  background: rgba(56, 189, 248, .1);
+  color: #7dd3fc;
+}
+
+.ecosystem-benefit-card:nth-child(2) .ecosystem-benefit-icon {
+  border-color: rgba(167, 139, 250, .2);
+  background: rgba(139, 92, 246, .12);
+  color: #c4b5fd;
+}
+
+.ecosystem-benefit-card:nth-child(3) .ecosystem-benefit-icon {
+  border-color: rgba(110, 231, 183, .2);
+  background: rgba(16, 185, 129, .1);
+  color: #6ee7b7;
+}
+
+.ecosystem-benefit-card h3 {
+  margin: 0 0 8px;
+  color: #f8fafc;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -.2px;
+}
+
+.ecosystem-benefit-card p {
+  margin: 0;
+  color: #b8c6da;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.execution-heading {
+  max-width: 760px;
+  margin: 20px 0 28px;
+}
+
+@media (max-width: 860px) {
+  .integrations-section .integration-diagram {
+    height: 500px;
+  }
+
+  .integration-diagram .diagram-node.outer-node {
+    max-width: 230px;
+    padding: 9px 13px;
+    font-size: 10px;
+  }
+
+  .integration-diagram .node-2 { right: 1%; }
+  .integration-diagram .node-3 { right: 0; }
+  .integration-diagram .node-4 { right: 1%; }
+  .integration-diagram .node-6 { left: 1%; }
+  .integration-diagram .node-7 { left: 1%; }
+}
+
+@media (max-width: 760px) {
+  .ecosystem-benefit-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .integrations-section .integration-diagram {
+    display: grid;
+    width: 100%;
+    height: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+    padding: 16px;
+  }
+
+  .integration-diagram .ecosystem-svg-canvas {
+    display: none;
+  }
+
+  .integration-diagram .center-node {
+    position: relative;
+    top: auto;
+    left: auto;
+    grid-column: 1 / -1;
+    width: fit-content;
+    min-width: 0;
+    max-width: 100%;
+    margin: 0 auto 8px;
+    padding: 17px 20px;
+    translate: none;
+  }
+
+  .integration-diagram .diagram-node.outer-node {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    min-height: 58px;
+    max-width: none;
+    justify-content: center;
+    padding: 10px;
+    text-align: center;
+    translate: none;
+  }
+
+  .integration-diagram .node-7 {
+    grid-column: 1 / -1;
+    width: min(100%, 260px);
+    justify-self: center;
+  }
+
+  .ecosystem-note {
+    margin-bottom: 22px;
+    text-align: left;
+  }
+
+  .ecosystem-benefit-card {
+    padding: 18px;
+  }
+
+  .execution-heading {
+    margin: 18px 0 24px;
+  }
+}
+

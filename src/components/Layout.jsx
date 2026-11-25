@@ -5,8 +5,9 @@ import { Link, useLocation } from 'react-router-dom'
 const NAV_ITEMS = [
   { label: 'AI Workforce', href: '#workforce' },
   { label: 'Solutions', href: '#solutions' },
-  { label: 'Product Demo', href: '#product-experience' },
+  { label: 'AI Ecosystem', href: '#integrations' },
   { label: 'How It Works', href: '#how-it-works' },
+  { label: 'Product Demo', href: '#product-experience' },
   { label: 'Industries', href: '#industries' },
   { label: 'Responsible AI', href: '#responsible-ai' },
   { label: 'Contact', href: '#contact' },
