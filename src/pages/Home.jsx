@@ -20,6 +20,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import ConnectedIntelligenceDemo from '../components/ConnectedIntelligenceDemo'
+import ResponsibleAIEcosystem from '../components/ResponsibleAIEcosystem'
 
 const challenges = [
   {
@@ -205,8 +206,6 @@ const ecosystemBenefits = [
     icon: ShieldCheck,
   },
 ]
-
-const governancePillars = ['Permissions and access controls', 'Human approval', 'Execution records', 'Data protection', 'Exception escalation', 'Monitoring']
 
 function SectionLabel({ children }) {
   return <span className="section-label">{children}</span>
@@ -1298,94 +1297,6 @@ function ConnectedIntelligence() {
   return <ConnectedIntelligenceDemo />
 }
 
-function ResponsibleAI() {
-  const [approvalState, setApprovalState] = useState('pending')
-  const [activityLog, setActivityLog] = useState(['AI request submitted', 'Waiting for human approval'])
-
-  const handleDecision = (decision) => {
-    const nextState = decision === 'approve' ? 'approved' : 'rejected'
-    setApprovalState(nextState)
-    setActivityLog((current) => [
-      nextState === 'approved' ? 'Action approved by human reviewer' : 'Action rejected by human reviewer',
-      ...current,
-    ].slice(0, 3))
-  }
-
-  return (
-    <section className="section governance-section" id="responsible-ai">
-      <div className="container">
-        <SectionLabel>RESPONSIBLE AI EXECUTION</SectionLabel>
-        <motion.div
-          className="section-heading governance-heading"
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-        >
-          <h2>Intelligent execution needs responsible control.</h2>
-          <p>
-            AI can support speed and efficiency, but it must operate within clear boundaries and human oversight. Permissions, approvals and records are part of the system design, not an afterthought.
-          </p>
-        </motion.div>
-
-        <div className="governance-demo">
-          <motion.div
-            className="governance-board"
-            initial={{ opacity: 0, x: -18 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-          >
-            <div className="governance-topbar">
-              <div className="tiny-row">
-                <ShieldCheck size={14} />
-                <span>Approval request</span>
-              </div>
-              <span className="chip chip-info">Human review</span>
-            </div>
-
-            <div className="approval-request">
-              <p>Operations AI requests a workflow action for vendor onboarding approval.</p>
-              <div className="approval-meta">
-                <span>Permission level: Standard</span>
-                <span>Risk: Medium</span>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className="governance-panel"
-            initial={{ opacity: 0, x: 18 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.5, ease: 'easeOut' }}
-          >
-            <div className="panel-header-row">
-              <span>Execution record</span>
-              <span className="chip chip-success">{approvalState === 'approved' ? 'Approved' : approvalState === 'rejected' ? 'Rejected' : 'Pending'}</span>
-            </div>
-            <div className="record-list">
-              {governancePillars.map((pillar) => (
-                <div key={pillar} className="record-item">
-                  <CheckCircle2 size={14} />
-                  <span>{pillar}</span>
-                </div>
-              ))}
-            </div>
-            <div className="activity-log">
-              {activityLog.map((entry) => (
-                <div key={entry} className="log-line">
-                  {entry}
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function FinalCTA() {
   return (
     <section className="final-cta-section" id="contact">
@@ -1421,7 +1332,7 @@ export default function Home() {
       <HowItWorks />
       <ProductDemo />
       <Industries />
-      <ResponsibleAI />
+      <ResponsibleAIEcosystem />
       <FinalCTA />
     </MotionConfig>
   )
