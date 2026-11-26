@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, MotionConfig, motion, useInView, useReducedMotion } from 'motion/react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {
   ArrowRight,
   Bot,
@@ -727,6 +727,14 @@ function BusinessChallenge() {
 function WorkforceSelector() {
   const [activeId, setActiveId] = useState(agents[0].id)
   const activeAgent = agents.find((agent) => agent.id === activeId) || agents[0]
+  const { hash } = useLocation()
+
+  useEffect(() => {
+    const requestedAgent = hash.slice(1)
+    if (agents.some((agent) => agent.id === requestedAgent)) {
+      setActiveId(requestedAgent)
+    }
+  }, [hash])
 
   return (
     <section className="section workforce-section" id="workforce">
@@ -750,6 +758,7 @@ function WorkforceSelector() {
             {agents.map((agent, idx) => (
               <motion.button
                 key={agent.id}
+                id={agent.id}
                 type="button"
                 className={`employee-tab ${agent.id === activeId ? 'is-selected' : ''}`}
                 style={{ '--role-accent': agent.tone }}

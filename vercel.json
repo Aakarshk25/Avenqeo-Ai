@@ -3,6 +3,30 @@
     {
       "source": "/book-a-demo",
       "destination": "/"
+    },
+    {
+      "source": "/about",
+      "destination": "/"
+    },
+    {
+      "source": "/faq",
+      "destination": "/"
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/"
+    },
+    {
+      "source": "/terms-of-service",
+      "destination": "/"
+    },
+    {
+      "source": "/cookie-policy",
+      "destination": "/"
+    },
+    {
+      "source": "/data-privacy-security",
+      "destination": "/"
     }
   ]
 }
