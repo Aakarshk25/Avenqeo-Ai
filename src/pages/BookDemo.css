@@ -4,9 +4,9 @@
   align-items: center;
   padding: 28px 0 36px;
   background:
-    radial-gradient(ellipse at 9% 12%, rgba(34, 197, 94, .11), transparent 34%),
-    radial-gradient(ellipse at 88% 90%, rgba(20, 184, 166, .07), transparent 36%),
-    linear-gradient(145deg, #07111b, #0a1620 54%, #07111b);
+    radial-gradient(ellipse at 9% 12%, rgba(101, 214, 194, .09), transparent 34%),
+    radial-gradient(ellipse at 88% 90%, rgba(139, 157, 255, .12), transparent 36%),
+    linear-gradient(145deg, #172947, #243b60 58%, #172947);
   color: #f8fafc;
 }
 
@@ -24,7 +24,7 @@
 
 .booking-page-eyebrow {
   display: inline-block;
-  color: #86efac;
+  color: #8be1cf;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: .14em;
@@ -71,10 +71,10 @@
   height: 32px;
   flex: 0 0 32px;
   place-items: center;
-  border: 1px solid rgba(74, 222, 128, .2);
+  border: 1px solid rgba(101, 214, 194, .22);
   border-radius: 10px;
-  background: rgba(34, 197, 94, .08);
-  color: #4ade80;
+  background: rgba(101, 214, 194, .09);
+  color: #8be1cf;
 }
 
 .booking-info-note {
@@ -89,10 +89,10 @@
 .booking-calendar-panel {
   min-width: 0;
   overflow: hidden;
-  border: 1px solid rgba(74, 222, 128, .19);
+  border: 1px solid rgba(174, 193, 221, .24);
   border-radius: 18px;
-  background: linear-gradient(145deg, rgba(13, 27, 38, .98), #0b1220 70%);
-  box-shadow: 0 22px 56px rgba(0, 0, 0, .28), inset 0 1px rgba(255, 255, 255, .035);
+  background: linear-gradient(145deg, #243b60, #172947 82%);
+  box-shadow: 0 22px 52px rgba(8, 15, 30, .22), inset 0 1px rgba(255, 255, 255, .05);
 }
 
 .booking-calendar-header {
@@ -100,7 +100,7 @@
   min-height: 58px;
   align-items: center;
   padding: 14px 20px;
-  border-bottom: 1px solid rgba(148, 163, 184, .14);
+  border-bottom: 1px solid rgba(190, 204, 225, .16);
 }
 
 .booking-calendar-header h2 {

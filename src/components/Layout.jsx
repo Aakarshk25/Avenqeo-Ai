@@ -80,6 +80,11 @@ export function Footer() {
   return (
     <footer className="site-footer">
       <div className="container footer-main">
+        <div className="footer-brand-block">
+          <Link className="brand footer-brand" to="/#home" aria-label="AVENQEO AI home">
+            <img className="brand-logo" src="/avenqeo-logo-transparent.png" alt="Avenqeo AI" />
+          </Link>
+        </div>
         <nav className="footer-nav" aria-label="Footer navigation">
           <Link to="/#home">Home</Link>
           {NAV_ITEMS.filter((item) => item.label !== 'Contact').map((item) => (

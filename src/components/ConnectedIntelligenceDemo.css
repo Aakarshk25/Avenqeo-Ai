@@ -5,7 +5,7 @@
   background:
     radial-gradient(ellipse at 12% 18%, rgba(59, 130, 246, .12), transparent 34%),
     radial-gradient(ellipse at 88% 84%, rgba(139, 92, 246, .11), transparent 38%),
-    linear-gradient(135deg, #080f1e, #111e33 76%);
+    linear-gradient(135deg, #172947, #243b60 76%);
   color: #e2e8f0;
 }
 
@@ -413,7 +413,7 @@
   overflow: hidden;
   border: 1px solid rgba(100, 130, 170, .14);
   border-radius: 11px;
-  background: #101c30;
+  background: #223b5b;
 }
 
 .mock-chat-surface {
@@ -424,7 +424,7 @@
 .mock-chat-surface.is-whatsapp {
   background:
     radial-gradient(circle at 20% 30%, rgba(16, 185, 129, .06), transparent 32%),
-    #101c30;
+    #1d3b52;
 }
 
 .mock-contact-row {
@@ -508,17 +508,17 @@
   padding: 10px 11px 7px;
   border: 1px solid rgba(148, 163, 184, .12);
   border-radius: 12px 12px 12px 4px;
-  background: #1b2a40;
+  background: #2b4160;
 }
 
 .mock-chat-surface.is-instagram .mock-message-bubble {
   border-color: rgba(99, 102, 241, .18);
-  background: linear-gradient(145deg, #202a48, #1a2c46);
+  background: linear-gradient(145deg, #344563, #273e5e);
 }
 
 .mock-chat-surface.is-whatsapp .mock-message-bubble {
   border-color: rgba(45, 212, 191, .16);
-  background: #183143;
+  background: #1e4052;
 }
 
 .mock-message-bubble p {
@@ -653,7 +653,7 @@
   border-radius: 8px;
   background:
     radial-gradient(circle at 85% 16%, rgba(139, 92, 246, .32), transparent 42%),
-    linear-gradient(125deg, #172c48, #112b3c);
+    linear-gradient(125deg, #2a4264, #1e3c56);
 }
 
 .facebook-post-art > span {
@@ -694,7 +694,7 @@
   min-width: 0;
   padding: 7px 9px;
   border-radius: 9px;
-  background: #1b2a40;
+  background: #2b4160;
 }
 
 .facebook-comment-copy strong {
@@ -1393,5 +1393,164 @@
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: .01ms !important;
+  }
+}
+
+.workforce-demo-section {
+  background:
+    radial-gradient(ellipse at 10% 12%, rgba(101, 156, 255, .16), transparent 36%),
+    radial-gradient(ellipse at 90% 86%, rgba(101, 214, 194, .08), transparent 38%),
+    linear-gradient(135deg, #172947, #243b60 80%);
+}
+
+.workforce-demo-section::before {
+  background: radial-gradient(ellipse at 52% 42%, rgba(139, 157, 255, .08), transparent 52%);
+}
+
+.workforce-demo-eyebrow {
+  color: #8be1cf;
+  font-size: 11px;
+}
+
+.workforce-demo-copy > p {
+  font-size: 15px;
+}
+
+.workforce-role-list > span {
+  font-size: 13px;
+}
+
+.workforce-demo-disclaimer small {
+  font-size: 11px;
+}
+
+.workforce-demo-product {
+  border-color: rgba(174, 193, 221, .28);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(121, 165, 235, .14), transparent 42%),
+    linear-gradient(145deg, #2b4365, #1d3454 96%);
+  box-shadow: 0 24px 60px rgba(16, 35, 66, .22), inset 0 1px rgba(226, 232, 240, .08);
+}
+
+.demo-source-panel,
+.demo-agent-panel {
+  border-color: rgba(179, 202, 235, .2);
+  background: rgba(31, 51, 80, .82);
+}
+
+.mock-chat-surface,
+.facebook-preview-card,
+.campaign-preview-card,
+.operations-preview-card {
+  border-color: rgba(179, 202, 235, .16);
+  background: #223b5b;
+}
+
+.mock-chat-surface.is-whatsapp {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(16, 185, 129, .08), transparent 32%),
+    #1d3b52;
+}
+
+.demo-product-brand strong {
+  font-size: 11px;
+}
+
+.demo-product-brand small,
+.demo-product-status,
+.demo-rotation-meta,
+.demo-panel-heading > small,
+.mock-online-state,
+.mock-timestamp,
+.mock-message-bubble time,
+.mock-context-line,
+.mock-agent-typing,
+.mock-message-composer,
+.facebook-page-row small,
+.facebook-sample-label,
+.facebook-reaction-row,
+.facebook-comment-copy small,
+.campaign-preview-topline,
+.campaign-field > span,
+.campaign-field strong,
+.campaign-channel-row .demo-app-badge,
+.campaign-content-preview > span,
+.operations-preview-topline,
+.operations-vendor small,
+.operations-checklist > div small,
+.operations-note,
+.demo-agent-copy > small,
+.demo-agent-copy > span,
+.demo-agent-state,
+.demo-processing-step,
+.demo-response-heading,
+.demo-completion-state,
+.demo-human-review-state small,
+.demo-connected-label,
+.demo-app-badge {
+  font-size: 10px;
+}
+
+.demo-scenario-label strong,
+.mock-contact-copy small,
+.facebook-post-art small,
+.facebook-comment-copy strong,
+.facebook-comment-copy > span,
+.campaign-preview-card > p,
+.campaign-content-preview > strong,
+.operations-checklist > div,
+.demo-agent-copy > strong,
+.demo-response-heading > span:first-child,
+.demo-response-card > p,
+.demo-human-review-state strong {
+  font-size: 12px;
+}
+
+.demo-scenario-label small,
+.facebook-post-art > span,
+.facebook-action-row {
+  font-size: 9px;
+}
+
+.mock-contact-copy strong,
+.facebook-page-row strong {
+  font-size: 11px;
+}
+
+.mock-message-bubble p,
+.facebook-post-copy,
+.demo-agent-copy > span,
+.demo-response-card > p {
+  line-height: 1.55;
+}
+
+.campaign-preview-card h3 {
+  font-size: 15px;
+}
+
+.workforce-demo-benefits strong {
+  font-size: 12px;
+}
+
+.workforce-demo-benefits small {
+  font-size: 11px;
+}
+
+@media (max-width: 680px) {
+  .workforce-demo-copy > p {
+    font-size: 14px;
+  }
+
+  .demo-scenario-label strong {
+    font-size: 11px;
+  }
+
+  .demo-panel-heading > span {
+    font-size: 12px;
+  }
+
+  .demo-response-card > p,
+  .mock-message-bubble p {
+    font-size: 11px;
   }
 }

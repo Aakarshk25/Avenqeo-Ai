@@ -1,112 +1,36 @@
-import React, { useEffect, useId, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion, useInView, useReducedMotion } from 'motion/react'
 import {
-  Bot,
   ClipboardList,
-  Headset,
   LockKeyhole,
   Megaphone,
-  MessageCircle,
   Sparkles,
   UserRoundCheck,
-  Workflow,
 } from 'lucide-react'
 import { siClaude, siGithubcopilot, siGooglegemini } from 'simple-icons'
 import './ResponsibleAIEcosystem.css'
 
-const agentNodes = [
-  {
-    id: 'support',
-    name: 'Customer Support AI',
-    shortName: 'Support AI',
-    purpose: 'Answers customer questions and routes sensitive requests.',
-    icon: Headset,
-    pattern: 'left-one',
-  },
-  {
-    id: 'marketing',
-    name: 'Marketing AI',
-    shortName: 'Marketing AI',
-    purpose: 'Prepares campaign drafts from an approved brief.',
-    icon: Megaphone,
-    pattern: 'left-two',
-  },
-  {
-    id: 'operations',
-    name: 'Operations AI',
-    shortName: 'Operations AI',
-    purpose: 'Coordinates tasks, owners, and exception handling.',
-    icon: Workflow,
-    pattern: 'left-three',
-  },
-  {
-    id: 'community',
-    name: 'Community AI',
-    shortName: 'Community AI',
-    purpose: 'Organizes community questions and drafts replies.',
-    icon: MessageCircle,
-    pattern: 'left-four',
-  },
-]
-
 const applicationNodes = [
-  {
-    id: 'chatgpt',
-    name: 'ChatGPT',
-    purpose: 'Example AI assistant; availability depends on configuration.',
-    brandColor: '#10A37F',
-    pattern: 'right-one',
-  },
-  {
-    id: 'claude',
-    name: 'Claude AI',
-    purpose: 'Example AI assistant; availability depends on configuration.',
-    icon: siClaude,
-    pattern: 'right-two',
-  },
-  {
-    id: 'gemini',
-    name: 'Gemini',
-    purpose: 'Example AI assistant; availability depends on configuration.',
-    icon: siGooglegemini,
-    pattern: 'right-three',
-  },
-  {
-    id: 'copilot',
-    name: 'GitHub Copilot',
-    purpose: 'Example AI assistant; availability depends on configuration.',
-    icon: siGithubcopilot,
-    pattern: 'right-four',
-  },
+  { id: 'chatgpt', name: 'ChatGPT', purpose: 'Example AI assistant; availability depends on configuration.', color: '#10A37F' },
+  { id: 'claude', name: 'Claude AI', purpose: 'Example AI assistant; availability depends on configuration.', icon: siClaude, color: '#D97757' },
+  { id: 'gemini', name: 'Gemini', purpose: 'Example AI assistant; availability depends on configuration.', icon: siGooglegemini, color: '#4285F4' },
+  { id: 'copilot', name: 'GitHub Copilot', purpose: 'Example AI assistant; availability depends on configuration.', icon: siGithubcopilot, color: '#151B2C' },
 ]
 
 const activityPatterns = [
-  ['support', 'chatgpt', 'operations', 'copilot'],
-  ['marketing', 'copilot', 'community', 'gemini'],
-  ['support', 'claude', 'marketing', 'chatgpt'],
+  ['chatgpt', 'copilot'],
+  ['copilot', 'gemini'],
+  ['claude', 'chatgpt'],
 ]
 
-const desktopConnections = [
-  { nodeId: 'chatgpt', d: 'M 120 112 C 245 112, 282 255, 420 310' },
-  { nodeId: 'claude', d: 'M 120 236 C 245 236, 300 292, 420 310' },
-  { nodeId: 'gemini', d: 'M 120 360 C 245 360, 300 330, 420 310' },
-  { nodeId: 'copilot', d: 'M 120 465 C 245 465, 282 355, 420 310' },
-  { nodeId: 'support', d: 'M 204 545 C 260 445, 310 370, 420 310' },
-  { nodeId: 'marketing', d: 'M 468 545 C 450 445, 435 370, 420 310' },
-  { nodeId: 'operations', d: 'M 732 545 C 615 445, 515 370, 420 310' },
-  { nodeId: 'community', d: 'M 996 545 C 765 445, 575 370, 420 310' },
+const assistantConnections = [
+  { id: 'chatgpt', d: 'M 245 104 C 300 104, 315 242, 380 258' },
+  { id: 'claude', d: 'M 245 216 C 300 216, 325 248, 380 258' },
+  { id: 'gemini', d: 'M 245 328 C 300 328, 325 275, 380 258' },
+  { id: 'copilot', d: 'M 245 440 C 300 440, 315 286, 380 258' },
 ]
 
-const mobileConnections = [
-  { nodeId: 'chatgpt', d: 'M 90 89 C 90 160, 145 220, 180 305' },
-  { nodeId: 'claude', d: 'M 270 89 C 270 160, 215 220, 180 305' },
-  { nodeId: 'gemini', d: 'M 90 186 C 90 230, 145 260, 180 305' },
-  { nodeId: 'copilot', d: 'M 270 186 C 270 230, 215 260, 180 305' },
-  { nodeId: 'support', d: 'M 90 640 C 90 525, 145 415, 180 305' },
-  { nodeId: 'marketing', d: 'M 270 640 C 270 525, 215 415, 180 305' },
-  { nodeId: 'operations', d: 'M 90 714 C 90 550, 145 440, 180 305' },
-  { nodeId: 'community', d: 'M 270 714 C 270 550, 215 440, 180 305' },
-]
+const workspaceConnection = 'M 640 258 C 690 258, 715 230, 790 230'
 
 const responsibleControls = [
   {
@@ -126,25 +50,33 @@ const responsibleControls = [
   },
 ]
 
-function AnimatedConnection({ connection, isActive, pathId, animate, isMobile }) {
+function ConnectionLines({ animate }) {
   return (
-    <g className={`rai-connection${isActive ? ' is-active' : ''}`}>
-      <path id={pathId} className="rai-connection__path" d={connection.d} />
-      <circle className="rai-connection__source" r="3.5">
-        <animateMotion
-          dur="5.6s"
-          begin={`${(desktopConnections.findIndex((item) => item.nodeId === connection.nodeId) % 4) * -1.1}s`}
-          repeatCount="indefinite"
-          calcMode="spline"
-          keyPoints="0;1"
-          keyTimes="0;1"
-          keySplines="0.4 0 0.2 1"
-          path={connection.d}
-          style={{ display: animate ? undefined : 'none' }}
-        />
-      </circle>
-      <circle className="rai-connection__endpoint" cx={isMobile ? 180 : 420} cy={isMobile ? 305 : 310} r="3.5" />
-    </g>
+    <svg className="rai-connections" viewBox="0 0 1200 620" preserveAspectRatio="none" aria-hidden="true">
+      <g className="rai-connections__assistants">
+        {assistantConnections.map(({ id, d }, index) => (
+          <g key={id}>
+            <path d={d} />
+            {animate && (
+              <circle className="rai-connection__pulse" r="3">
+                <animateMotion
+                  dur="4.8s"
+                  begin={`${index * -1.05}s`}
+                  repeatCount="indefinite"
+                  path={d}
+                />
+              </circle>
+            )}
+          </g>
+        ))}
+      </g>
+      <path className="rai-connections__workspace" d={workspaceConnection} />
+      {animate && (
+        <circle className="rai-connection__pulse" r="3">
+          <animateMotion dur="4.8s" begin="-2.4s" repeatCount="indefinite" path={workspaceConnection} />
+        </circle>
+      )}
+    </svg>
   )
 }
 
@@ -155,14 +87,9 @@ function CentralAvenqeoBot({ isActive }) {
       role="group"
       aria-label="Avenqeo AI central orchestration hub"
     >
-      <span className="rai-hub__orbit rai-hub__orbit--outer" aria-hidden="true" />
-      <span className="rai-hub__orbit rai-hub__orbit--inner" aria-hidden="true" />
-      <span className="rai-hub__bot">
-        <Bot size={34} strokeWidth={1.7} aria-hidden="true" />
-        <span className="rai-hub__bot-signal" />
-      </span>
       <img className="rai-hub__brand" src="/avenqeo-logo.png" alt="Avenqeo AI" />
       <span className="rai-hub__caption">Orchestration hub</span>
+      <span className="rai-hub__detail">One accountable control layer</span>
     </div>
   )
 }
@@ -171,9 +98,7 @@ function ConversationPreview() {
   return (
     <div className="rai-conversation" role="group" aria-label="Sample campaign conversation, illustrative only">
       <div className="rai-conversation__header">
-        <span className="rai-conversation__app">
-          <Sparkles size={15} aria-hidden="true" />
-        </span>
+        <span className="rai-conversation__app"><Sparkles size={18} aria-hidden="true" /></span>
         <span className="rai-conversation__title">
           <strong>ChatGPT workspace</strong>
           <span>Illustrative assistant session</span>
@@ -189,7 +114,7 @@ function ConversationPreview() {
         </div>
         <div className="rai-conversation__draft">
           <span className="rai-conversation__draft-icon">
-            <Sparkles size={15} aria-hidden="true" />
+            <Megaphone size={16} aria-hidden="true" />
           </span>
           <span className="rai-conversation__draft-copy">
             <strong>Launch announcement draft</strong>
@@ -199,7 +124,7 @@ function ConversationPreview() {
         </div>
       </div>
       <div className="rai-conversation__footer">
-        <span className="rai-conversation__agent-icon"><Megaphone size={13} aria-hidden="true" /></span>
+        <span className="rai-conversation__agent-icon"><Megaphone size={14} aria-hidden="true" /></span>
         Marketing AI
         <span className="rai-conversation__footer-dot" />
         Draft prepared
@@ -208,54 +133,29 @@ function ConversationPreview() {
   )
 }
 
-function AgentNode({ node, isActive }) {
-  const Icon = node.icon
-
-  return (
-    <div
-      className={`rai-node rai-node--agent rai-node--${node.pattern}${isActive ? ' is-active' : ''}`}
-      role="group"
-      tabIndex={0}
-      aria-label={`${node.name}. ${node.purpose}`}
-    >
-      <span className="rai-node__icon"><Icon size={17} strokeWidth={1.8} aria-hidden="true" /></span>
-      <span className="rai-node__copy">
-        <span className="rai-node__name">{node.shortName}</span>
-        <span className="rai-node__kind">AI employee</span>
-      </span>
-      <span className="rai-node__activity" aria-hidden="true" />
-    </div>
-  )
-}
-
 function ApplicationNode({ node, isActive }) {
-  const icon = node.icon
-
   return (
     <div
-      className={`rai-node rai-node--app rai-node--${node.pattern}${isActive ? ' is-active' : ''}`}
+      className={`rai-node rai-node--app${isActive ? ' is-active' : ''}`}
       role="group"
       tabIndex={0}
       aria-label={`${node.name}. ${node.purpose}`}
     >
-      <span className="rai-node__icon rai-node__icon--brand" style={{ '--brand-color': node.brandColor || `#${icon.hex}` }}>
-        {icon ? (
+      <span className="rai-node__icon rai-node__icon--brand" style={{ '--brand-color': node.color }}>
+        {node.icon ? (
           <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d={icon.path} fill="currentColor" />
+            <path d={node.icon.path} fill="currentColor" />
           </svg>
         ) : (
-          <Sparkles size={17} strokeWidth={1.9} aria-hidden="true" />
+          <Sparkles size={19} strokeWidth={1.9} aria-hidden="true" />
         )}
       </span>
       <span className="rai-node__name">{node.name}</span>
-      <span className="rai-node__activity" aria-hidden="true" />
     </div>
   )
 }
 
 function EcosystemVisualization({ isVisible, shouldReduceMotion }) {
-  const rawId = useId()
-  const idPrefix = `rai-${rawId.replace(/[^a-zA-Z0-9_-]/g, '')}`
   const [activePattern, setActivePattern] = useState(0)
   const activeNodes = activityPatterns[activePattern]
   const animate = isVisible && !shouldReduceMotion
@@ -270,20 +170,6 @@ function EcosystemVisualization({ isVisible, shouldReduceMotion }) {
     return () => window.clearInterval(intervalId)
   }, [animate])
 
-  const renderConnections = (connections, isMobile = false) => connections.map((connection) => {
-    const pathId = `${idPrefix}-${isMobile ? 'mobile-' : ''}${connection.nodeId}`
-    return (
-      <AnimatedConnection
-        key={pathId}
-        connection={connection}
-        pathId={pathId}
-        isActive={activeNodes.includes(connection.nodeId)}
-        animate={animate}
-        isMobile={isMobile}
-      />
-    )
-  })
-
   return (
     <div className={`rai-ecosystem${isVisible ? ' is-visible' : ''}${shouldReduceMotion ? ' is-reduced-motion' : ''}`}>
       <div className="rai-ecosystem__frame">
@@ -292,33 +178,19 @@ function EcosystemVisualization({ isVisible, shouldReduceMotion }) {
             <span className="rai-ecosystem__legend-dot" />
             Illustrative ecosystem
           </span>
-          <span className="rai-ecosystem__cycle">Activity pattern 0{activePattern + 1} <span>/ 03</span></span>
+          <span className="rai-ecosystem__note">Connected AI, under human oversight</span>
         </div>
 
-        <div
-          className="rai-ecosystem__diagram"
-          role="group"
-          aria-label="Illustrative Avenqeo AI ecosystem visualization"
-        >
-          <span className="rai-ecosystem__group-label rai-ecosystem__group-label--apps">CONNECTED AI ASSISTANTS</span>
-          <span className="rai-ecosystem__group-label rai-ecosystem__group-label--agents">SPECIALISED AI EMPLOYEES</span>
-
-          <svg className="rai-connections rai-connections--desktop" viewBox="0 0 1200 620" preserveAspectRatio="none" aria-hidden="true">
-            {renderConnections(desktopConnections)}
-          </svg>
-
-          <svg className="rai-connections rai-connections--mobile" viewBox="0 0 360 744" preserveAspectRatio="none" aria-hidden="true">
-            {renderConnections(mobileConnections, true)}
-          </svg>
-
-          {applicationNodes.map((node) => (
-            <ApplicationNode key={node.id} node={node} isActive={animate && activeNodes.includes(node.id)} />
-          ))}
+        <div className="rai-ecosystem__diagram" role="group" aria-label="Illustrative Avenqeo AI ecosystem visualization">
+          <span className="rai-ecosystem__group-label rai-ecosystem__group-label--apps">AI ASSISTANTS</span>
+          <ConnectionLines animate={animate} />
+          <div className="rai-ecosystem__assistants">
+            {applicationNodes.map((node) => (
+              <ApplicationNode key={node.id} node={node} isActive={animate && activeNodes.includes(node.id)} />
+            ))}
+          </div>
           <CentralAvenqeoBot isActive={animate} />
           <ConversationPreview />
-          {agentNodes.map((node) => (
-            <AgentNode key={node.id} node={node} isActive={animate && activeNodes.includes(node.id)} />
-          ))}
         </div>
       </div>
 
@@ -335,7 +207,7 @@ function ResponsibleAIStatus() {
       <div className="rai-controls__list">
         {responsibleControls.map(({ title, detail, icon: Icon }) => (
           <div className="rai-controls__item" key={title}>
-            <Icon size={17} strokeWidth={1.8} aria-hidden="true" />
+            <Icon size={18} strokeWidth={1.8} aria-hidden="true" />
             <span className="rai-controls__item-copy">
               <strong>{title}</strong>
               <span>{detail}</span>
